@@ -1,0 +1,17 @@
+site_name: Spacecog
+
+nav:
+    - Home: index.md
+    - Initial Setup: setup.md
+    - Quickstart: usage.md
+    - File Structure: files.md
+    
+theme: 
+    name: readthedocs
+
+plugins:
+    - search
+    
+use_directory_urls: false
+    
+ 

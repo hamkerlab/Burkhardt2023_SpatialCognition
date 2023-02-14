@@ -1,0 +1,33 @@
+# specify, if you want to use Unity and the network interface. otherwise, you can still perform "offline" simulations 
+RemoteDesktop: False # if true, the Unity environment and the network interface are used. if false, pre-generated data from saved simulations is used
+
+# if you use the Unity environment (RemoteDesktop == True), you need to specify these parameters
+VR_IP_ADDRESS: '192.168.0.12' # enter the IP address of the Unity server here (can also be a local IP if you use WSL2)
+VR_UNITY_PORT: 1337 # Unity port (default: 1337)
+VR_AGENT_NO: 0 # agent number (default: 0)
+
+# if RemoteDesktop == False, you need to specify a simulation, from which visual and positional information are loaded:
+replication_experiment: 3 # experiment to replicate (1-4)
+replication_number: 100 # simulation number to replicate (as provided in Results/Exp#/Simulation_#; uses the corresponding visual field, position, and target object)
+
+# if you run a simulation for the first time, you need to generate and save some large connections. you can set it to false afterwards.
+create_connections: True # if true, create and save large connections. otherwise, load saved connections from memory
+
+# if you want to see what's going on in the network, it might sense to look at the neuronal activity. these flags specify which parts of the simulation get recorded into .mat files
+record_encoding: False # if true, activity from key populations of the ventral and dorsal stream during encoding are saved. also, a small video is created in the Results/ folder (care: needs a lot of memory)
+record_recall: False # if true, activity from  key populations of the ventral and dorsal stream during recall are saved
+record_SM: False # if true, activity for the SM model is saved
+
+# these parameters let you control the simulation scenario (only applicable when using Unity)
+Experiment: 3 # chose experiment number (as introduced in the paper)
+N_simulations: 1 # how many simulations to run in a row (makes mostly sense for random simulations, with SET_TARGET == False and SET_POSITION == False)
+
+SET_TARGET: False # if true, you can define a target object. otherwise, a random object is chosen
+TARGET: 1 # possible target objects are: 0 (yellow crane), 1 (green crane), 2 (green racecar)
+
+SET_POSITION: False # if true, you can set the position for the encoding phase. otherwise, a random position is chosen
+POSITION:
+  - 8.5 # x position in the room (for the default arrangement of objects it should be between 7.5 and 9.5)
+  - 5.0 # y position in the room (for the default arrangement of objects it should be between 4.0 and 6.0)
+  - 213 # head direction in degrees clockwise, starting from north (for the default arrangement of objects it should be somewhere between 210 and 220, depending on the position)
+  - -15 # eye tilt (for the default arrangement of objects it should be somewhere between -10 and -15, depending on the position)

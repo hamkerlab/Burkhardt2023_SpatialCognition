@@ -1,0 +1,264 @@
+message MsgVersionCheck
+{
+	required string version = 1;
+}
+
+message MsgAgentMovement 
+{	
+	required int32 actionID = 1;
+	required float degree = 2;
+	required float distance = 3;
+}
+
+
+message MsgAgentEyemovement 
+{
+	required int32 actionID = 1;
+	required float panLeft = 2;
+	required float panRight = 3;
+	required float tilt = 4;
+}
+
+message MsgAgentEyeFixation 
+{
+	required int32 actionID = 1;
+	required float targetX = 2;
+	required float targetY = 3;
+	required float targetZ = 4;
+}
+
+message MsgReward 
+{
+	required float reward = 1;
+}
+
+message MsgGridPosition 
+{
+	required float targetX = 1;
+	required float targetY = 2;
+	required float targetZ = 3;
+	optional float targetRotationX = 4;
+	optional float targetRotationY = 5;
+	optional float targetRotationZ = 6;
+}
+
+message MsgActionExecutationStatus 
+{
+	required int32 actionID = 1; 
+	required int32 status = 2;
+}
+
+message MsgCollision 
+{
+	required int32 actionID = 1;
+	required int32 colliderID = 2;
+}
+
+message MsgImages 
+{
+	required bytes leftImage = 1;
+	required bytes rightImage = 2;
+    required bytes mainImage = 3;
+}
+
+message MsgMenu 
+{
+	required int32 eventID = 1;
+	optional bytes parameter = 2;
+}
+
+message MsgAgentGraspPos 
+{
+	required int32 actionID = 1;
+	required float targetX = 2;
+	required float targetY = 3;
+}
+
+message MsgAgentGraspID 
+{
+	required int32 actionID = 1;
+	required int32 objectID = 2;
+}
+
+message MsgAgentPointPos 
+{
+	required int32 actionID = 1;
+	required float targetX = 2;
+	required float targetY = 3;
+}
+
+message MsgAgentPointID 
+{
+	required int32 actionID = 1;
+	required int32 objectID = 2;
+}
+
+message MsgAgentInteractionID 
+{
+   required int32 actionID = 1;
+   required int32 objectID = 2;
+}
+
+message MsgAgentInteractionPos 
+{
+   required int32 actionID = 1;
+   required float targetX = 2;
+   required float targetY = 3;
+}
+
+message MsgEnvironmentReset 
+{
+   optional int32 Type = 1;
+}
+
+message MsgSaccFlag
+{
+   required bool flag = 1;
+}
+
+message MsgTrialReset 
+{
+   optional int32 Type = 1;
+}
+
+message MsgAgentGraspRelease 
+{
+	required int32 actionID = 1;
+}
+
+message MsgAgentTurn 
+{
+	required int32 actionID = 1;
+	required float degree = 2;
+}
+
+message MsgEyePosition 
+{
+	required float rotationPositionX = 1;
+ 	required float rotationPositionY = 2;
+	required float rotationPositionZ = 3;
+	required float rotationVelocityX = 4;
+	required float rotationVelocityY = 5;
+	required float rotationVelocityZ = 6;
+}
+
+message MsgObjectPosition 
+{
+	required float greenCraneX = 1;
+ 	required float greenCraneY = 2;
+	required float yellowCraneX = 3;
+	required float yellowCraneY = 4;
+	required float greenRacecarX = 5;
+	required float greenRacecarY = 6;
+}
+
+message MsgHeadMotion {
+	required float velocityX = 1;
+ 	required float velocityY = 2;
+	required float velocityZ = 3;
+	required float accelerationX = 4;
+	required float accelerationY = 5;
+	required float accelerationZ = 6;
+	required float rotationVelocityX = 7;
+	required float rotationVelocityY = 8;
+	required float rotationVelocityZ = 9;	
+	required float rotationAccelerationX = 10;
+	required float rotationAccelerationY = 11;
+	required float rotationAccelerationZ = 12;
+}
+
+message MsgAgentMoveTo 
+{
+	required int32 actionID = 1;
+	required float posX = 2;
+ 	required float posY = 3;
+	required float posZ = 4;
+	optional int32 targetMode = 5;
+}
+
+message MsgAgentCancelMovement 
+{
+	required int32 actionID = 1;
+}
+
+// AnnarNetwork specific Messages
+
+message MsgAnnarNetwork 
+{
+	required bool Update = 1;
+	repeated MsgAnnarLayer Layers = 2;
+	required int64 step = 3;
+}
+
+message MsgAnnarLayer 
+{
+	required int32 Width = 1;
+	required int32 Height = 2;
+	required int32 Depth = 3;
+	required string Name = 4;
+	required int32 ID = 5;
+	repeated MsgAnnarNeuron Neurons = 6;
+}
+
+message MsgAnnarNeuron 
+{
+	optional double Mp = 1;
+	optional double Rate = 2;
+	optional int32 ID = 3;
+	repeated MsgAnnarWeightList WeightLists = 4;
+}
+
+message MsgAnnarWeightList 
+{
+	optional int32 Type = 1;
+	repeated MsgAnnarWeight Weights = 2;
+}
+   
+message MsgAnnarWeight 
+{
+	optional int32 PreNeuronID = 1;
+	optional int32 PreLayerID = 2;
+	optional double WeightValue = 3;
+}
+
+message MsgStartSync 
+{
+}
+
+message MsgStopSync 
+{
+}
+
+message MsgObject 
+{
+	optional MsgAgentMovement msgAgentMovement = 1;
+	optional MsgAgentEyemovement msgAgentEyemovement = 2;
+	optional MsgAgentEyeFixation msgAgentEyeFixation =3;
+	optional MsgReward msgReward = 4;
+	optional MsgGridPosition msgGridPosition =5;
+	optional MsgActionExecutationStatus msgActionExecutationStatus = 6;
+	optional MsgCollision msgCollision = 7;
+	optional MsgImages msgImages = 8;
+	optional MsgMenu msgMenu = 9;
+	optional string msgDebug = 10;
+	optional MsgEnvironmentReset msgEnvironmentReset = 11;
+	optional MsgTrialReset msgTrialReset = 12;
+	optional MsgAgentGraspPos msgAgentGraspPos = 13;
+	optional MsgAgentGraspID msgAgentGraspID = 14;
+	optional MsgAgentPointPos msgAgentPointPos = 15;
+	optional MsgAgentPointID msgAgentPointID = 16;
+	optional MsgAgentInteractionID msgAgentInteractionID = 17;
+	optional MsgAgentInteractionPos msgAgentInteractionPos = 18;
+	optional MsgAnnarNetwork msgAnnarNetwork = 19;
+	optional MsgStartSync msgStartSync = 20;
+	optional MsgStopSync msgStopSync = 21;
+	optional MsgAgentGraspRelease msgAgentGraspRelease = 22;
+	optional MsgAgentTurn msgAgentTurn = 23;
+	optional MsgEyePosition msgEyePosition = 24;
+	optional MsgObjectPosition msgObjectPosition = 25;
+	optional MsgHeadMotion msgHeadMotion = 26;	
+	optional MsgAgentMoveTo msgAgentMoveTo = 27;
+	optional MsgAgentCancelMovement msgAgentCancelMovement = 28;
+	optional MsgVersionCheck msgVersionCheck = 29;
+    optional MsgSaccFlag msgSaccFlag = 30;
+}

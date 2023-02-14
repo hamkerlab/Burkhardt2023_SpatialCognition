@@ -1,0 +1,224 @@
+fileFormatVersion: 2
+guid: 63302f3eef252074c8406c8c24a6a242
+ModelImporter:
+  serializedVersion: 15
+  fileIDToRecycleName:
+    100000: abdomen
+    100002: abdomen2
+    100004: Aldora for Genesis.Shape
+    100006: Boxers for Genesis.Shape
+    100008: chest
+    100010: //RootNode
+    100012: Genesis
+    100014: Genesis.Shape
+    100016: head
+    100018: hip
+    100020: lBigToe
+    100022: lCarpal1
+    100024: lCarpal2
+    100026: lCollar
+    100028: lEye
+    100030: lFoot
+    100032: lForeArm
+    100034: lHand
+    100036: lIndex1
+    100038: lIndex2
+    100040: lIndex3
+    100042: lMid1
+    100044: lMid2
+    100046: lMid3
+    100048: lowerJaw
+    100050: lPectoral
+    100052: lPinky1
+    100054: lPinky2
+    100056: lPinky3
+    100058: lRing1
+    100060: lRing2
+    100062: lRing3
+    100064: lShin
+    100066: lShldr
+    100068: lThigh
+    100070: lThumb1
+    100072: lThumb2
+    100074: lThumb3
+    100076: lToe
+    100078: neck
+    100080: pelvis
+    100082: rBigToe
+    100084: rCarpal1
+    100086: rCarpal2
+    100088: rCollar
+    100090: rEye
+    100092: rFoot
+    100094: rForeArm
+    100096: rHand
+    100098: rIndex1
+    100100: rIndex2
+    100102: rIndex3
+    100104: rMid1
+    100106: rMid2
+    100108: rMid3
+    100110: rPectoral
+    100112: rPinky1
+    100114: rPinky2
+    100116: rPinky3
+    100118: rRing1
+    100120: rRing2
+    100122: rRing3
+    100124: rShin
+    100126: rShldr
+    100128: rThigh
+    100130: rThumb1
+    100132: rThumb2
+    100134: rThumb3
+    100136: rToe
+    100138: tongue01
+    100140: tongue02
+    100142: tongue03
+    100144: tongue04
+    100146: tongue05
+    100148: tongueBase
+    100150: tongueTip
+    100152: TShirt for Genesis.Shape
+    100154: upperJaw
+    400000: abdomen
+    400002: abdomen2
+    400004: Aldora for Genesis.Shape
+    400006: Boxers for Genesis.Shape
+    400008: chest
+    400010: //RootNode
+    400012: Genesis
+    400014: Genesis.Shape
+    400016: head
+    400018: hip
+    400020: lBigToe
+    400022: lCarpal1
+    400024: lCarpal2
+    400026: lCollar
+    400028: lEye
+    400030: lFoot
+    400032: lForeArm
+    400034: lHand
+    400036: lIndex1
+    400038: lIndex2
+    400040: lIndex3
+    400042: lMid1
+    400044: lMid2
+    400046: lMid3
+    400048: lowerJaw
+    400050: lPectoral
+    400052: lPinky1
+    400054: lPinky2
+    400056: lPinky3
+    400058: lRing1
+    400060: lRing2
+    400062: lRing3
+    400064: lShin
+    400066: lShldr
+    400068: lThigh
+    400070: lThumb1
+    400072: lThumb2
+    400074: lThumb3
+    400076: lToe
+    400078: neck
+    400080: pelvis
+    400082: rBigToe
+    400084: rCarpal1
+    400086: rCarpal2
+    400088: rCollar
+    400090: rEye
+    400092: rFoot
+    400094: rForeArm
+    400096: rHand
+    400098: rIndex1
+    400100: rIndex2
+    400102: rIndex3
+    400104: rMid1
+    400106: rMid2
+    400108: rMid3
+    400110: rPectoral
+    400112: rPinky1
+    400114: rPinky2
+    400116: rPinky3
+    400118: rRing1
+    400120: rRing2
+    400122: rRing3
+    400124: rShin
+    400126: rShldr
+    400128: rThigh
+    400130: rThumb1
+    400132: rThumb2
+    400134: rThumb3
+    400136: rToe
+    400138: tongue01
+    400140: tongue02
+    400142: tongue03
+    400144: tongue04
+    400146: tongue05
+    400148: tongueBase
+    400150: tongueTip
+    400152: TShirt for Genesis.Shape
+    400154: upperJaw
+    4300000: Genesis.Shape
+    4300002: Aldora for Genesis.Shape
+    4300004: TShirt for Genesis.Shape
+    4300006: Boxers for Genesis.Shape
+    7400000: Animation
+    9500000: //RootNode
+    11100000: //RootNode
+    13700000: Aldora for Genesis.Shape
+    13700002: Boxers for Genesis.Shape
+    13700004: Genesis.Shape
+    13700006: TShirt for Genesis.Shape
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    handles: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  additionalBone: 1
+  animationType: 1
+  userData: 

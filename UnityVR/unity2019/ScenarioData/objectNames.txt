@@ -1,0 +1,21 @@
+memoryObject7  cookie_manikin
+memoryObject0  car_crane
+memoryObject5  teddy
+
+memoryObject6  chocolate
+memoryObject3  dog
+memoryObject4  duck
+memoryObject1  open_top_machine
+memoryObject5  teddy
+
+memoryObject6  chocolate
+
+memoryObject1  open_top_machine
+
+memoryObject4  duck
+
+memoryObject7  cookie_manikin
+memoryObject3  dog
+memoryObject0  car_crane
+memoryObject2  racecar
+memoryObject2  racecar

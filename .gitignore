@@ -1,0 +1,14 @@
+# general files
+#*.pyc
+#*.save
+#*.mat
+#*.mp4
+#*.data
+
+# folders
+#*/annarchy*/
+#*/Results*/
+#*/connections*/
+#*/targets/
+#*.vscode/
+#*.spyproject/

@@ -1,0 +1,141 @@
+fileFormatVersion: 2
+guid: 67a22bcbcb637e046b6018cb33723f97
+ModelImporter:
+  serializedVersion: 15
+  fileIDToRecycleName:
+    100000: Cylinder
+    100002: Cylinder_001
+    100004: Cylinder_002
+    100006: Cylinder_003
+    100008: Cylinder_004
+    100010: Cylinder_005
+    100012: Cylinder_006
+    100014: Cylinder_007
+    100016: lego1
+    100018: lego1_001
+    100020: lego1_002
+    100022: lego2
+    100024: lego2_001
+    100026: lego2_002
+    100028: lego3
+    100030: lego4
+    100032: //RootNode
+    400000: Cylinder
+    400002: Cylinder_001
+    400004: Cylinder_002
+    400006: Cylinder_003
+    400008: Cylinder_004
+    400010: Cylinder_005
+    400012: Cylinder_006
+    400014: Cylinder_007
+    400016: lego1
+    400018: lego1_001
+    400020: lego1_002
+    400022: lego2
+    400024: lego2_001
+    400026: lego2_002
+    400028: lego3
+    400030: lego4
+    400032: //RootNode
+    2300000: Cylinder
+    2300002: Cylinder_001
+    2300004: Cylinder_002
+    2300006: Cylinder_003
+    2300008: Cylinder_004
+    2300010: Cylinder_005
+    2300012: Cylinder_006
+    2300014: Cylinder_007
+    2300016: lego1
+    2300018: lego1_001
+    2300020: lego1_002
+    2300022: lego2
+    2300024: lego2_001
+    2300026: lego2_002
+    2300028: lego3
+    2300030: lego4
+    3300000: Cylinder
+    3300002: Cylinder_001
+    3300004: Cylinder_002
+    3300006: Cylinder_003
+    3300008: Cylinder_004
+    3300010: Cylinder_005
+    3300012: Cylinder_006
+    3300014: Cylinder_007
+    3300016: lego1
+    3300018: lego1_001
+    3300020: lego1_002
+    3300022: lego2
+    3300024: lego2_001
+    3300026: lego2_002
+    3300028: lego3
+    3300030: lego4
+    4300000: lego2_002
+    4300002: Cylinder_007
+    4300004: Cylinder_006
+    4300006: lego1_002
+    4300008: lego1_001
+    4300010: Cylinder_005
+    4300012: Cylinder_004
+    4300014: lego2_001
+    4300016: lego3
+    4300018: Cylinder_003
+    4300020: Cylinder_002
+    4300022: lego4
+    4300024: lego2
+    4300026: Cylinder_001
+    4300028: Cylinder
+    4300030: lego1
+    7400000: Take 001
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    handles: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  additionalBone: 1
+  animationType: 2
+  userData: 

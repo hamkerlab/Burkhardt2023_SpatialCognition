@@ -1,0 +1,13 @@
+ANNarchy==4.7.2.1
+protobuf<=3.15.5
+numpy
+matplotlib
+scipy
+imageio
+opencv-python
+Pillow
+scikit-image
+h5py
+natsort
+astropy
+pyyaml

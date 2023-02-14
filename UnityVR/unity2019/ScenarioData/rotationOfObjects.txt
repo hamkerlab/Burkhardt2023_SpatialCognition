@@ -1,0 +1,32 @@
+memoryObject7  -83
+
+memoryObject0  72
+
+memoryObject5  57
+
+memoryObject6  -8
+
+memoryObject3  -53
+
+memoryObject4  -49
+
+memoryObject1  61
+
+memoryObject5  12
+
+memoryObject6  -57
+
+memoryObject1  -57
+
+memoryObject4  -51
+
+memoryObject7  -74
+
+memoryObject3  -18
+
+memoryObject0  43
+
+memoryObject2  22
+
+memoryObject2  51
+

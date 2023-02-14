@@ -1,0 +1,1756 @@
+\documentclass{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{tabularx}
+\usepackage{xltabular}
+\usepackage{multirow}
+\usepackage{colortbl}
+
+\usepackage[fleqn]{amsmath}
+\setlength{\mathindent}{0em}
+\usepackage{breqn}
+
+\usepackage[scaled=.95]{helvet}
+\renewcommand\familydefault{\sfdefault}
+
+\renewcommand\arraystretch{1.2}
+\pagestyle{empty}
+
+\newcommand{\hdr}[3]{
+    \multicolumn{#1}{|l|}{
+        \color{white}\cellcolor[gray]{0.0}
+        \textbf{\makebox[0pt]{#2}\hspace{0.5\linewidth}\makebox[0pt][c]{#3}}
+    }
+}
+
+\rmfamily
+
+\begin{document}
+\rmfamily
+
+\noindent
+\begin{tabularx}{\linewidth}{|l|X|}\hline
+\hdr{2}{A}{Model Summary}\\ \hline
+\textbf{Populations}     & 29: EP, X\_FEF, LIP\_EP, LIP\_CD, Xh, Input, V1, V4L4, V4L23, AuxV4L4, AuxV4L23, FEFv, FEFvm, FEFm, PFC, AuxA, AuxE, FEFfix, HD, BVC, PR, oPR, PW, H, TR, IP, oPW, OVC, oTR \\ \hline
+\textbf{Connectivity}    & Sparse connectivity matrix, User-defined, Convolution, Pooling, One-to-One, Connectivity matrix, All-to-All \\ \hline
+\textbf{Neuron models}   & V1\_Neuron, EP\_Neuron, OVC\_Neuron, H\_Neuron, Xh\_Neuron, LIPCD\_Neuron, FEFv\_Neuron, XFEF\_Neuron, FEFvm\_Neuron, AuxV4L23\_Neuron, IP\_Neuron, oTR\_Neuron, TR\_Neuron, FEFm\_Neuron, PR\_Neuron, V4L23\_Neuron, HD\_Neuron, oPR\_Neuron, oPW\_Neuron, PW\_Neuron, Input\_Neuron, LIPEP\_Neuron, Aux\_Neuron, AuxV4L4\_Neuron, BVC\_Neuron, V4L4\_Neuron \\ \hline
+\textbf{Plasticity}      & Convolution operation, Pooling operation\\ \hline
+\end{tabularx}
+
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|l|l|X|}\hline
+\hdr{3}{B}{Populations}\\ \hline
+    \textbf{Name}   & \textbf{Elements} & \textbf{Size} \\ \hline
+
+    EP             & EP\_Neuron        & $N_{\text{EP}}$ = 336 (21*16)  \\ \hline
+
+    X\_FEF             & XFEF\_Neuron        & $N_{\text{X\_FEF}}$ = 112896 (21*16*21*16)  \\ \hline
+
+    LIP\_EP             & LIPEP\_Neuron        & $N_{\text{LIP\_EP}}$ = 112896 (21*16*21*16)  \\ \hline
+
+    LIP\_CD             & LIPCD\_Neuron        & $N_{\text{LIP\_CD}}$ = 112896 (21*16*21*16)  \\ \hline
+
+    Xh             & Xh\_Neuron        & $N_{\text{Xh}}$ = 336 (21*16)  \\ \hline
+
+    Input             & Input\_Neuron        & $N_{\text{Input}}$ = 158400 (66*50*3*16)  \\ \hline
+
+    V1             & V1\_Neuron        & $N_{\text{V1}}$ = 158400 (66*50*3*16)  \\ \hline
+
+    V4L4             & V4L4\_Neuron        & $N_{\text{V4L4}}$ = 99000 (66*50*30)  \\ \hline
+
+    V4L23             & V4L23\_Neuron        & $N_{\text{V4L23}}$ = 24750 (33*25*30)  \\ \hline
+
+    AuxV4L4             & AuxV4L4\_Neuron        & $N_{\text{AuxV4L4}}$ = 3300 (66*50)  \\ \hline
+
+    AuxV4L23             & AuxV4L23\_Neuron        & $N_{\text{AuxV4L23}}$ = 825 (33*25)  \\ \hline
+
+    FEFv             & FEFv\_Neuron        & $N_{\text{FEFv}}$ = 3300 (66*50)  \\ \hline
+
+    FEFvm             & FEFvm\_Neuron        & $N_{\text{FEFvm}}$ = 19800 (66*50*6)  \\ \hline
+
+    FEFm             & FEFm\_Neuron        & $N_{\text{FEFm}}$ = 3300 (66*50)  \\ \hline
+
+    PFC             & Input\_Neuron        & $N_{\text{PFC}}$ = 30  \\ \hline
+
+    AuxA             & Aux\_Neuron        & $N_{\text{AuxA}}$ = 3300 (66*50)  \\ \hline
+
+    AuxE             & Aux\_Neuron        & $N_{\text{AuxE}}$ = 825 (33*25)  \\ \hline
+
+    FEFfix             & Input\_Neuron        & $N_{\text{FEFfix}}$ = 1  \\ \hline
+
+    HD             & HD\_Neuron        & $N_{\text{HD}}$ = 100  \\ \hline
+
+    BVC             & BVC\_Neuron        & $N_{\text{BVC}}$ = 816  \\ \hline
+
+    PR             & PR\_Neuron        & $N_{\text{PR}}$ = 4  \\ \hline
+
+    oPR             & oPR\_Neuron        & $N_{\text{oPR}}$ = 9  \\ \hline
+
+    PW             & PW\_Neuron        & $N_{\text{PW}}$ = 816  \\ \hline
+
+    H             & H\_Neuron        & $N_{\text{H}}$ = 1936  \\ \hline
+
+    TR             & TR\_Neuron        & $N_{\text{TR}}$ = 16320 (816*20)  \\ \hline
+
+    IP             & IP\_Neuron        & $N_{\text{IP}}$ = 1  \\ \hline
+
+    oPW             & oPW\_Neuron        & $N_{\text{oPW}}$ = 816  \\ \hline
+
+    OVC             & OVC\_Neuron        & $N_{\text{OVC}}$ = 816  \\ \hline
+
+    oTR             & oTR\_Neuron        & $N_{\text{oTR}}$ = 16320 (816*20)  \\ \hline
+
+\end{tabularx}
+
+\vspace{2ex}
+
+
+\begin{xltabular}{\linewidth}{|l|l|l|X|X|}\hline
+\hdr{5}{C}{Connectivity}\\ \hline
+
+\textbf{Source} & \textbf{Destination} & \textbf{Target} & \textbf{Synapse} & \textbf{Pattern} \\ \hline 
+\endfirsthead
+
+\multicolumn{5}{c}%
+{continued from previous page} \\
+\hdr{5}{C}{Connectivity}\\ \hline
+\hline \textbf{Source} & \textbf{Destination} & \textbf{Target} & \textbf{Synapse} & \textbf{Pattern} \\ \hline 
+\endhead
+
+\hline \multicolumn{5}{|r|}{{Continued on next page}} \\ \hline
+\endfoot
+
+\hline
+\endlastfoot
+
+    EP & X\_FEF & EP & - &
+    Created by the method gaussian2dTo4d\_v \\ \hline
+
+    EP & LIP\_EP & EP & - &
+    Created by the method gaussian2dTo4d\_v \\ \hline
+
+    Xh & LIP\_EP & FB & - &
+    Created by the method gaussian2dTo4d\_diag \\ \hline
+
+    LIP\_EP & LIP\_EP & exc & - &
+    Created by the method all2all\_exp4d \\ \hline
+
+    X\_FEF & LIP\_CD & CD & - &
+    Created by the method gaussian4d\_diagTo4d\_v \\ \hline
+
+    Xh & LIP\_CD & FB & - &
+    Created by the method gaussian2dTo4d\_diag \\ \hline
+
+    LIP\_EP & Xh & EP & - &
+    Created by the method gaussian4dTo2d\_diag \\ \hline
+
+    LIP\_EP & Xh & EP\_neglect & - &
+    Created by the method gaussian4dTo2d\_diag \\ \hline
+
+    LIP\_CD & Xh & CD & - &
+    Created by the method gaussian4dTo2d\_diag \\ \hline
+
+    LIP\_CD & Xh & CD\_neglect & - &
+    Created by the method gaussian4dTo2d\_diag \\ \hline
+
+    Xh & Xh & exc & - &
+    Created by the method all2all\_exp2d \\ \hline
+
+    Xh & Xh & inh & - &
+    Created by the method all2all\_exp2d \\ \hline
+
+    Xh & LIP\_EP & SSP & - &
+    Created by the method sur2dTo4d\_diag \\ \hline
+
+    Xh & LIP\_CD & SSP & - &
+    Created by the method sur2dTo4d\_diag \\ \hline
+
+    Input & V1 & exc & - &
+    One-to-One, weights 1.0, delays 5.0 \\ \hline
+
+    V1 & V4L4 & exc & Convolution operation &
+    Convolution \\ \hline
+
+    V4L4 & V4L23 & exc & Convolution operation &
+    Convolution \\ \hline
+
+    V4L23 & V4L4 & A\_FEAT & Convolution operation &
+    Convolution \\ \hline
+
+    V4L23 & V4L4 & S\_FEAT & Convolution operation &
+    Convolution \\ \hline
+
+    V4L23 & V4L4 & S\_SUR & Convolution operation &
+    Convolution \\ \hline
+
+    V4L23 & AuxE & exc & Pooling operation &
+    Pooling \\ \hline
+
+    AuxE & FEFv & exc & - &
+    Created by the method con\_scale \\ \hline
+
+    FEFv & FEFvm & E\_v & Convolution operation &
+    Convolution \\ \hline
+
+    FEFv & FEFvm & S\_v & Convolution operation &
+    Convolution \\ \hline
+
+    FEFvm & AuxA & exc & Pooling operation &
+    Pooling \\ \hline
+
+    AuxA & V4L4 & A\_SP & Convolution operation &
+    Convolution \\ \hline
+
+    AuxA & V4L4 & S\_SP & Convolution operation &
+    Convolution \\ \hline
+
+    FEFvm & FEFm & vm & Pooling operation &
+    Pooling \\ \hline
+
+    FEFm & FEFvm & E_m & Convolution operation &
+    Convolution \\ \hline
+
+    PFC & V4L23 & A\_PFC & - &
+    Created by the method one\_to\_dim \\ \hline
+
+    FEFfix & FEFm & fix & - &
+    All-to-All, weights 1.0, delays 0.0 \\ \hline
+
+    AuxV4L23 & V4L23 & SSP & - &
+    One-to-One, weights 1.0, delays 0.0 \\ \hline
+
+    AuxV4L4 & V4L4 & LIP & - &
+    One-to-One, weights 1.0, delays 0.0 \\ \hline
+
+    HD & HD & HD2HD & - &
+    Connectivity matrix \\ \hline
+
+    HD & HD & HDRotCCW & - &
+    Connectivity matrix \\ \hline
+
+    HD & HD & HDRotCW & - &
+    Connectivity matrix \\ \hline
+
+    HD & IP & HD2IP & - &
+    All-to-All, weights 1.0, delays 0.025 \\ \hline
+
+    IP & TR & IP2TR & - &
+    All-to-All, weights 1.0, delays 0.025 \\ \hline
+
+    IP & oTR & IP2oTR & - &
+    All-to-All, weights 1.0, delays 0.025 \\ \hline
+
+    H & BVC & H2BVC & - &
+    Connectivity matrix \\ \hline
+
+    BVC & H & BVC2H & - &
+    Connectivity matrix \\ \hline
+
+    H & PR & H2PR & - &
+    Connectivity matrix \\ \hline
+
+    H & oPR & H2oPR & - &
+    Connectivity matrix \\ \hline
+
+    oPR & H & oPR2H & - &
+    Connectivity matrix \\ \hline
+
+    oPR & PW & oPR2PW & - &
+    Connectivity matrix \\ \hline
+
+    oPR & HD & oPR2HD & - &
+    Connectivity matrix \\ \hline
+
+    BVC & oPR & BVC2oPR & - &
+    Connectivity matrix \\ \hline
+
+    oPR & BVC & oPR2BVC & - &
+    Connectivity matrix \\ \hline
+
+    oPR & oPR & oPR2oPR & - &
+    Connectivity matrix \\ \hline
+
+    PR & H & PR2H & - &
+    Connectivity matrix \\ \hline
+
+    PR & PR & PR2PR & - &
+    Connectivity matrix \\ \hline
+
+    PR & BVC & PR2BVC & - &
+    Connectivity matrix \\ \hline
+
+    BVC & PR & BVC2PR & - &
+    Connectivity matrix \\ \hline
+
+    BVC & BVC & BVC2BVC & - &
+    Connectivity matrix \\ \hline
+
+    H & OVC & H2OVC & - &
+    Connectivity matrix \\ \hline
+
+    OVC & H & OVC2H & - &
+    Connectivity matrix \\ \hline
+
+    OVC & BVC & OVC2BVC & - &
+    Connectivity matrix \\ \hline
+
+    BVC & OVC & BVC2OVC & - &
+    Connectivity matrix \\ \hline
+
+    OVC & OVC & OVC2OVC & - &
+    Connectivity matrix \\ \hline
+
+    OVC & oPR & OVC2oPR & - &
+    Connectivity matrix \\ \hline
+
+    oPR & OVC & oPR2OVC & - &
+    Connectivity matrix \\ \hline
+
+    BVC & TR & BVC2TR & - &
+    Sparse connectivity matrix \\ \hline
+
+    TR & BVC & TR2BVC & - &
+    Sparse connectivity matrix \\ \hline
+
+    OVC & oTR & OVC2oTR & - &
+    Sparse connectivity matrix \\ \hline
+
+    oTR & OVC & oTR2OVC & - &
+    Sparse connectivity matrix \\ \hline
+
+    TR & PW & TR2PW & - &
+    Sparse connectivity matrix \\ \hline
+
+    PW & TR & PW2TR & - &
+    Sparse connectivity matrix \\ \hline
+
+    oTR & oPW & oTR2oPW & - &
+    Sparse connectivity matrix \\ \hline
+
+    oPW & oTR & oPW2oTR & - &
+    Sparse connectivity matrix \\ \hline
+
+    HD & TR & HD2TR & - &
+    Connectivity matrix \\ \hline
+
+    HD & oTR & HD2oTR & - &
+    Connectivity matrix \\ \hline
+
+    H & H & H2H & - &
+    Connectivity matrix \\ \hline
+
+    PW & PW & PW2PW & - &
+    All-to-All, weights 1, delays 0.05 \\ \hline
+
+    oTR & oTR & oTR2oTR & - &
+    Created by the method layerwise\_inhibition \\ \hline
+
+    FEFm & X\_FEF & CD & - &
+    Created by the method gaussian2dTo4d\_h \\ \hline
+
+    FEFm & LIP\_EP & FEF & - &
+    Created by the method gaussian2dTo4d\_h \\ \hline
+
+    FEFm & LIP\_CD & FEF & - &
+    Created by the method gaussian2dTo4d\_h \\ \hline
+
+    LIP\_EP & FEFv & LIP1 & - &
+    Created by the method gaussian4dTo2d\_h \\ \hline
+
+    LIP\_CD & FEFv & LIP2 & - &
+    Created by the method gaussian4dTo2d\_h \\ \hline
+
+    AuxE & LIP\_EP & V4 & - &
+    Created by the method gaussian2dTo4d\_h \\ \hline
+
+    AuxE & LIP\_CD & V4 & - &
+    Created by the method gaussian2dTo4d\_h \\ \hline
+ 
+\end{xltabular}
+
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.15\linewidth}|X|}\hline
+\hdr{2}{D}{Neuron Models}\\ \hline
+\textbf{Name} & EP\_Neuron \\ \hline
+\textbf{Type} & User-defined model of a rate-coded neuron.\\ \hline
+\textbf{Equations} &
+
+
+\begin{dmath*}
+\frac{d{r_{\text{change}}}(t)}{dt} \cdot \tau + {r}(t) = \left({\text{baseline}}\right)^+
+\end{dmath*}
+
+\begin{dmath*}
+{r}(t) = \begin{cases}0\qquad \text{if} \quad {r_{\text{change}}}(t) < 1.0 \cdot 10^{-5}\\ {r_{\text{change}}}(t) \qquad \text{otherwise.} \end{cases}
+\end{dmath*}
+
+\\ \hline
+
+
+
+\end{tabularx}
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.15\linewidth}|X|}\hline
+
+\textbf{Name} & XFEF\_Neuron \\ \hline
+\textbf{Type} & User-defined model of a rate-coded neuron.\\ \hline
+\textbf{Equations} &
+
+
+\begin{dmath*}
+{{\text{num}}_{\text{neurons}}}(t) = {\text{num-neurons-h}}^{2} \cdot {\text{num-neurons-w}}^{2}
+\end{dmath*}
+
+\begin{dmath*}
+\frac{d{r_{\text{change}}}(t)}{dt} \cdot \tau + {r}(t) = X_{\text{FEFsc}} \cdot \sum_{\text{CD}} w \cdot r^{\text{pre}}(t-d) \cdot \sum_{\text{EP}} w \cdot r^{\text{pre}}(t-d) - w_{\text{inh}} \cdot {r}(t) \cdot {{\text{num}}_{\text{neurons}}}(t) \cdot \operatorname{mean}{\left({r}(t) \right)}
+\end{dmath*}
+
+\begin{dmath*}
+{r}(t) = \begin{cases}0\qquad \text{if} \quad {r_{\text{change}}}(t) < 1.0 \cdot 10^{-5}\\ {r_{\text{change}}}(t) \qquad \text{otherwise.} \end{cases}
+\end{dmath*}
+
+\\ \hline
+
+
+
+\end{tabularx}
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.15\linewidth}|X|}\hline
+
+\textbf{Name} & LIPEP\_Neuron \\ \hline
+\textbf{Type} & User-defined model of a rate-coded neuron.\\ \hline
+\textbf{Equations} &
+
+
+\begin{dmath*}
+{{\text{num}}_{\text{neurons}}}(t) = {\text{num-neurons-h}}^{2} \cdot {\text{num-neurons-w}}^{2}
+\end{dmath*}
+
+\begin{dmath*}
+\frac{d{r_{\text{change}}}(t)}{dt} \cdot \tau + {r}(t) = \sum_{\text{FB}} w \cdot r^{\text{pre}}(t-d) \cdot \sum_{\text{EP}} w \cdot r^{\text{pre}}(t-d) - \sum_{\text{SSP}} w \cdot r^{\text{pre}}(t-d) \cdot {\text{vSSP}} + \sum_{\text{exc}} w \cdot r^{\text{pre}}(t-d) + \sum_{\text{EP}} w \cdot r^{\text{pre}}(t-d) \cdot \left(\sum_{\text{V4}} w \cdot r^{\text{pre}}(t-d) \cdot {\text{FFsc}} + \sum_{\text{FEF}} w \cdot r^{\text{pre}}(t-d) \cdot {\text{FEFsc}}\right) \cdot \left(A - \operatorname{max}{\left({r}(t) \right)}\right)^+ - w_{\text{inh}} \cdot {{\text{num}}_{\text{neurons}}}(t) \cdot \left(D + {r}(t)\right) \cdot \operatorname{mean}{\left({r}(t) \right)}
+\end{dmath*}
+
+\begin{dmath*}
+{r}(t) = \begin{cases}0\qquad \text{if} \quad {r_{\text{change}}}(t) < 1.0 \cdot 10^{-5}\\ {r_{\text{change}}}(t) \qquad \text{otherwise.} \end{cases}
+\end{dmath*}
+
+\\ \hline
+
+
+
+\end{tabularx}
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.15\linewidth}|X|}\hline
+
+\textbf{Name} & LIPCD\_Neuron \\ \hline
+\textbf{Type} & User-defined model of a rate-coded neuron.\\ \hline
+\textbf{Equations} &
+
+
+\begin{dmath*}
+{{\text{num}}_{\text{neurons}}}(t) = {\text{num-neurons-h}}^{2} \cdot {\text{num-neurons-w}}^{2}
+\end{dmath*}
+
+\begin{dmath*}
+\frac{d{r_{\text{change}}}(t)}{dt} \cdot \tau + {r}(t) = \sum_{\text{FB}} w \cdot r^{\text{pre}}(t-d) \cdot \sum_{\text{CD}} w \cdot r^{\text{pre}}(t-d) \cdot {\text{FBsc}} - \sum_{\text{SSP}} w \cdot r^{\text{pre}}(t-d) \cdot {\text{vSSP}} - w_{\text{inh}} \cdot {{\text{num}}_{\text{neurons}}}(t) \cdot \left(D + {r}(t)\right) \cdot \operatorname{mean}{\left({r}(t) \right)} + \left(\sum_{\text{V4}} w \cdot r^{\text{pre}}(t-d) + \sum_{\text{FEF}} w \cdot r^{\text{pre}}(t-d) \cdot {\text{FEFsc}}\right) \cdot \left(\sum_{\text{CD}} w \cdot r^{\text{pre}}(t-d) \cdot \left(A - {r}(t)\right)^+ + 1\right)
+\end{dmath*}
+
+\begin{dmath*}
+{r}(t) = \begin{cases}0\qquad \text{if} \quad {r_{\text{change}}}(t) < 1.0 \cdot 10^{-5}\\ {r_{\text{change}}}(t) \qquad \text{otherwise.} \end{cases}
+\end{dmath*}
+
+\\ \hline
+
+
+
+\end{tabularx}
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.15\linewidth}|X|}\hline
+
+\textbf{Name} & Xh\_Neuron \\ \hline
+\textbf{Type} & User-defined model of a rate-coded neuron.\\ \hline
+\textbf{Equations} &
+
+
+\begin{dmath*}
+{{\text{LIP}}_{\text{input}}}(t) = \begin{cases}{\text{NEsc}} \cdot \left(\sum_{\text{EP\_neglect}} w \cdot r^{\text{pre}}(t-d) + \sum_{\text{CD\_neglect}} w \cdot r^{\text{pre}}(t-d)\right)\qquad 
+\newline
+\text{if} \quad {\text{neglect}}\\ {\text{FFsc}} \cdot \left(\sum_{\text{CD}} w \cdot r^{\text{pre}}(t-d) + \sum_{\text{EP}} w \cdot r^{\text{pre}}(t-d)\right) \qquad 
+
+\text{otherwise.} \end{cases}
+\end{dmath*}
+
+\begin{dmath*}
+{{\text{input}}}(t) = {\text{baseline}} + {{\text{LIP}}_{\text{input}}}(t)
+\end{dmath*}
+
+\begin{dmath*}
+{s}(t) = {s}(t) + \frac{{\text{dt}}_{\text{dep}} \cdot \left(- {s}(t) + {{\text{input}}}(t)\right)}{\tau_{\text{dep}}}
+\end{dmath*}
+
+\begin{dmath*}
+{{\text{S2}}}(t) = - d_{\text{dep}} \cdot {s}(t) + 1
+\end{dmath*}
+
+\begin{dmath*}
+{{\text{num}}_{\text{neurons}}}(t) = {\text{num-neurons-h}} \cdot {\text{num-neurons-w}}
+\end{dmath*}
+
+\begin{dmath*}
+{{\text{inh}}}(t) = \sum_{\text{inh}} w \cdot r^{\text{pre}}(t-d) \cdot {\text{INHsc}} \cdot \left(D + {r}(t)\right)
+\end{dmath*}
+
+\begin{dmath*}
+\frac{d{r_{\text{change}}}(t)}{dt} \cdot \tau + {r}(t) = \sum_{\text{exc}} w \cdot r^{\text{pre}}(t-d) + {{\text{S2}}}(t) \cdot {{\text{input}}}(t) - {{\text{inh}}}(t)
+\end{dmath*}
+
+\begin{dmath*}
+{r}(t) = \begin{cases}0\qquad \text{if} \quad {r_{\text{change}}}(t) < 1.0 \cdot 10^{-5}\\ {r_{\text{change}}}(t) \qquad \text{otherwise.} \end{cases}
+\end{dmath*}
+
+\\ \hline
+
+
+
+\end{tabularx}
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.15\linewidth}|X|}\hline
+
+\textbf{Name} & Input\_Neuron \\ \hline
+\textbf{Type} & User-defined model of a rate-coded neuron.\\ \hline
+\textbf{Equations} &
+
+
+\\ \hline
+
+
+
+\end{tabularx}
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.15\linewidth}|X|}\hline
+
+\textbf{Name} & Aux\_Neuron \\ \hline
+\textbf{Type} & User-defined model of a rate-coded neuron.\\ \hline
+\textbf{Equations} &
+
+
+\begin{dmath*}
+{r}(t) = \sum_{\text{exc}} w \cdot r^{\text{pre}}(t-d)
+\end{dmath*}
+
+\\ \hline
+
+
+
+\end{tabularx}
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.15\linewidth}|X|}\hline
+
+\textbf{Name} & V1\_Neuron \\ \hline
+\textbf{Type} & User-defined model of a rate-coded neuron.\\ \hline
+\textbf{Equations} &
+
+
+\begin{dmath*}
+{r}(t) = \operatorname{pow}{\left(\sum_{\text{exc}} w \cdot r^{\text{pre}}(t-d),{\text{pV1C}} \right)}
+\end{dmath*}
+
+\\ \hline
+
+
+
+\end{tabularx}
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.15\linewidth}|X|}\hline
+
+\textbf{Name} & V4L4\_Neuron \\ \hline
+\textbf{Type} & User-defined model of a rate-coded neuron.\\ \hline
+\textbf{Equations} &
+
+
+\begin{dmath*}
+{E}(t) = \operatorname{pow}{\left({\text{vV1}} \cdot \operatorname{clip}{\left(\sum_{\text{exc}} w \cdot r^{\text{pre}}(t-d),0,1 \right)},{\text{pE}} \right)}
+\end{dmath*}
+
+\begin{dmath*}
+{{\text{ASP}}}(t) = \sum_{\text{A\_SP}} w \cdot r^{\text{pre}}(t-d) \cdot {\text{vFEFvm}}
+\end{dmath*}
+
+\begin{dmath*}
+{{\text{AFEAT}}}(t) = {\text{vV24}} \cdot \operatorname{pow}{\left(\sum_{\text{A\_FEAT}} w \cdot r^{\text{pre}}(t-d),{\text{pV24}} \right)}
+\end{dmath*}
+
+\begin{dmath*}
+{{\text{ALIP}}}(t) = \sum_{\text{LIP}} w \cdot r^{\text{pre}}(t-d) \cdot {\text{vLIP}}
+\end{dmath*}
+
+\begin{dmath*}
+{A}(t) = {{\text{AFEAT}}}(t) + {{\text{ALIP}}}(t) + {{\text{ASP}}}(t) + 1
+\end{dmath*}
+
+\begin{dmath*}
+{{\text{SFEAT}}}(t) = \operatorname{pow}{\left({\text{vF1}} \cdot \operatorname{clip}{\left(\sum_{\text{S\_FEAT}} w \cdot r^{\text{pre}}(t-d),0,1 \right)},{\text{pF1}} \right)}
+\end{dmath*}
+
+\begin{dmath*}
+{{\text{SSP}}}(t) = \sum_{\text{S\_SP}} w \cdot r^{\text{pre}}(t-d) \cdot {\text{vSP1}}
+\end{dmath*}
+
+\begin{dmath*}
+{{\text{SSUR}}}(t) = \sum_{\text{S\_SUR}} w \cdot r^{\text{pre}}(t-d) \cdot {\text{vSUR1}}
+\end{dmath*}
+
+\begin{dmath*}
+{S}(t) = {E}(t) \cdot \left({A}(t) + {{\text{SFEAT}}}(t) + {{\text{SSP}}}(t) + {{\text{SSUR}}}(t)\right)
+\end{dmath*}
+
+\begin{dmath*}
+{{\text{EA}}}(t) = {A}(t) \cdot {E}(t)
+\end{dmath*}
+
+\begin{dmath*}
+{A_S}(t) = \frac{{A}(t)}{{S}(t) + {\text{sigmaL4}}}
+\end{dmath*}
+
+\begin{dmath*}
+{{\text{EA}}_S}(t) = \frac{{A}(t) \cdot {E}(t)}{{S}(t) + {\text{sigmaL4}}}
+\end{dmath*}
+
+\begin{dmath*}
+\frac{\tau \cdot dr}{\Delta t} = \frac{{A}(t) \cdot {E}(t) \cdot {\text{gHVA4}}}{{S}(t) + {\text{sigmaL4}}} - {r}(t)
+\end{dmath*}
+
+\\ \hline
+
+
+
+\end{tabularx}
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.15\linewidth}|X|}\hline
+
+\textbf{Name} & V4L23\_Neuron \\ \hline
+\textbf{Type} & User-defined model of a rate-coded neuron.\\ \hline
+\textbf{Equations} &
+
+
+\begin{dmath*}
+{{\text{ALIP}}}(t) = \sum_{\text{LIP1}} w \cdot r^{\text{pre}}(t-d) \cdot {\text{vLIP1}} + \sum_{\text{LIP2}} w \cdot r^{\text{pre}}(t-d) \cdot {\text{vLIP2}}
+\end{dmath*}
+
+\begin{dmath*}
+{A}(t) = \left(\sum_{\text{A\_PFC}} w \cdot r^{\text{pre}}(t-d) \cdot {\text{vPFC}} + {\text{vLIP}} \cdot {{\text{ALIP}}}(t) + 1\right) \cdot \operatorname{pow}{\left(\sum_{\text{exc}} w \cdot r^{\text{pre}}(t-d) \cdot {\text{vV42}},{\text{pV42}} \right)}
+\end{dmath*}
+
+\begin{dmath*}
+{S}(t) = \left(\sum_{\text{A\_PFC}} w \cdot r^{\text{pre}}(t-d) \cdot {\text{vPFC}} + \sum_{\text{SSP}} w \cdot r^{\text{pre}}(t-d) \cdot {\text{vSSP}} + {\text{vLIP}} \cdot {{\text{ALIP}}}(t) + 1\right) \cdot \operatorname{pow}{\left(\sum_{\text{exc}} w \cdot r^{\text{pre}}(t-d) \cdot {\text{vV42}},{\text{pV42}} \right)}
+\end{dmath*}
+
+\begin{dmath*}
+\frac{\tau \cdot dr}{\Delta t} = \frac{{A}(t) \cdot {\text{gHVA2}}}{{S}(t) + {\text{sigmaL23}}} - {r}(t)
+\end{dmath*}
+
+\\ \hline
+
+
+
+\end{tabularx}
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.15\linewidth}|X|}\hline
+
+\textbf{Name} & AuxV4L4\_Neuron \\ \hline
+\textbf{Type} & User-defined model of a rate-coded neuron.\\ \hline
+\textbf{Equations} &
+
+
+\begin{dmath*}
+{{\text{vLIP}}}(t) = \sum_{\text{LIP1}} w \cdot r^{\text{pre}}(t-d) \cdot {\text{vLIP1}} + \sum_{\text{LIP2}} w \cdot r^{\text{pre}}(t-d) \cdot {\text{vLIP2}}
+\end{dmath*}
+
+\begin{dmath*}
+{r}(t) = {{\text{vLIP}}}(t)
+\end{dmath*}
+
+\\ \hline
+
+
+
+\end{tabularx}
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.15\linewidth}|X|}\hline
+
+\textbf{Name} & AuxV4L23\_Neuron \\ \hline
+\textbf{Type} & User-defined model of a rate-coded neuron.\\ \hline
+\textbf{Equations} &
+
+
+\begin{dmath*}
+{S_{\text{SP}}}(t) = \sum_{\text{SSP1}} w \cdot r^{\text{pre}}(t-d) \cdot {\text{vSSP1}} + \sum_{\text{SSP2}} w \cdot r^{\text{pre}}(t-d) \cdot {\text{vSSP2}}
+\end{dmath*}
+
+\begin{dmath*}
+{r}(t) = {S_{\text{SP}}}(t)
+\end{dmath*}
+
+\\ \hline
+
+
+
+\end{tabularx}
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.15\linewidth}|X|}\hline
+
+\textbf{Name} & FEFv\_Neuron \\ \hline
+\textbf{Type} & User-defined model of a rate-coded neuron.\\ \hline
+\textbf{Equations} &
+
+
+\begin{dmath*}
+{{\text{ALIP}}}(t) = \sum_{\text{LIP1}} w \cdot r^{\text{pre}}(t-d) \cdot {\text{vLIP1}} + \sum_{\text{LIP2}} w \cdot r^{\text{pre}}(t-d) \cdot {\text{vLIP2}}
+\end{dmath*}
+
+\begin{dmath*}
+{E}(t) = \sum_{\text{exc}} w \cdot r^{\text{pre}}(t-d) \cdot {\text{vExc}} + {{\text{ALIP}}}(t)
+\end{dmath*}
+
+\begin{dmath*}
+{q}(t) = \frac{{E}(t) \cdot \left({\text{sigmaFEF}} + 1\right)}{{E}(t) + {\text{sigmaFEF}}}
+\end{dmath*}
+
+\begin{dmath*}
+\frac{\tau \cdot dr}{\Delta t} = - {r}(t) + \left(- c + {q}(t) \cdot \left(c + 1\right)\right)^+
+\end{dmath*}
+
+\\ \hline
+
+
+
+\end{tabularx}
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.15\linewidth}|X|}\hline
+
+\textbf{Name} & FEFvm\_Neuron \\ \hline
+\textbf{Type} & User-defined model of a rate-coded neuron.\\ \hline
+\textbf{Equations} &
+
+
+\begin{dmath*}
+{{\text{ES}}}(t) = \operatorname{clip}{\left(\sum_{\text{E\_v}} w \cdot r^{\text{pre}}(t-d) \cdot {\text{vEv}} - \sum_{\text{S\_v}} w \cdot r^{\text{pre}}(t-d) \cdot {\text{vSv1}},0,1 \right)}
+\end{dmath*}
+
+\begin{dmath*}
+{E}(t) = {\text{vlow}} \cdot \left(\sum_{\text{E\_v}} w \cdot r^{\text{pre}}(t-d) \cdot {\text{vEv}}\right)^+ + {{\text{ES}}}(t) \cdot \left(1 - {\text{vlow}}\right)
+\end{dmath*}
+
+\begin{dmath*}
+\frac{\tau \cdot dr}{\Delta t} = \sum_{\text{E\_m}} w \cdot r^{\text{pre}}(t-d) \cdot \left(1 - {\text{vFEFv}}\right) + {E}(t) \cdot {\text{vFEFv}} - {r}(t)
+\end{dmath*}
+
+\\ \hline
+
+
+
+\end{tabularx}
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.15\linewidth}|X|}\hline
+
+\textbf{Name} & FEFm\_Neuron \\ \hline
+\textbf{Type} & User-defined model of a rate-coded neuron.\\ \hline
+\textbf{Equations} &
+
+
+\begin{dmath*}
+{{\text{svm}}}(t) = \sum_{\text{vm}} w \cdot r^{\text{pre}}(t-d)
+\end{dmath*}
+
+\begin{dmath*}
+\frac{\tau \cdot dr}{\Delta t} = \sum_{\text{vm}} w \cdot r^{\text{pre}}(t-d) \cdot {\text{vFEFvm}} - \sum_{\text{fix}} w \cdot r^{\text{pre}}(t-d) \cdot {\text{vSFix}} - {\text{vSvm}} \cdot \operatorname{max}{\left({{\text{svm}}}(t) \right)} - {r}(t)
+\end{dmath*}
+
+\\ \hline
+
+
+
+\end{tabularx}
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.15\linewidth}|X|}\hline
+
+\textbf{Name} & HD\_Neuron \\ \hline
+\textbf{Type} & User-defined model of a rate-coded neuron.\\ \hline
+\textbf{Equations} &
+
+
+\begin{dmath*}
+{k}(t) = {\text{CCWturn}} \cdot {\text{Rotphi}} \cdot \operatorname{sum}{\left(HDRotCCW \right)} + {\text{CWturn}} \cdot {\text{Rotphi}} \cdot \operatorname{sum}{\left(HDRotCW \right)} + {\text{HD2HDphi}} \cdot \operatorname{sum}{\left(HD2HD \right)} + {\text{cue}} \cdot {\text{percep}}_{\text{flag}} + {\text{cue}}_{\text{init}} + {\text{imag}}_{\text{flag}} \cdot {\text{oPR2HDphi}} \cdot \operatorname{sum}{\left(oPR2HD \right)} - {{\text{act}}}(t)
+\end{dmath*}
+
+\begin{dmath*}
+\frac{d{{\text{act}}}(t)}{dt} \cdot \tau = {k}(t)
+\end{dmath*}
+
+\begin{dmath*}
+{r}(t) = \frac{1}{1 + e^{- 2 \cdot \beta \cdot \left(- \alpha + {{\text{act}}}(t)\right)}}
+\end{dmath*}
+
+\\ \hline
+
+
+
+\end{tabularx}
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.15\linewidth}|X|}\hline
+
+\textbf{Name} & IP\_Neuron \\ \hline
+\textbf{Type} & User-defined model of a rate-coded neuron.\\ \hline
+\textbf{Equations} &
+
+
+\begin{dmath*}
+{r}(t) = \frac{1}{1 + e^{- 2 \cdot \beta \cdot \left(- \alpha + \sum_{\text{HD2IP}} w \cdot r^{\text{pre}}(t-d) \cdot {\text{HD2IPphi}}\right)}}
+\end{dmath*}
+
+\\ \hline
+
+
+
+\end{tabularx}
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.15\linewidth}|X|}\hline
+
+\textbf{Name} & H\_Neuron \\ \hline
+\textbf{Type} & User-defined model of a rate-coded neuron.\\ \hline
+\textbf{Equations} &
+
+
+\begin{dmath*}
+{k}(t) = {\text{use}}_{\text{syninput}} \cdot \left({I_{\text{comp}}}(t) + {\text{BVC2Hphi}} \cdot {\text{Pmod}} \cdot \operatorname{sum}{\left(BVC2H \right)} + {\text{Hphi}} \cdot \operatorname{sum}{\left(H2H \right)} + {\text{Imod}} \cdot {\text{oPR2Hphi}} \cdot \operatorname{sum}{\left(oPR2H \right)} + {\text{OVC2Hphi}} \cdot \operatorname{sum}{\left(OVC2H \right)} + {\text{PR2Hphi}} \cdot \operatorname{sum}{\left(PR2H \right)}\right) - {{\text{act}}}(t)
+\end{dmath*}
+
+\begin{dmath*}
+\frac{d{{\text{act}}}(t)}{dt} \cdot \tau = {k}(t)
+\end{dmath*}
+
+\begin{dmath*}
+{r}(t) = \frac{1}{1 + e^{- 2 \cdot \beta \cdot \left(- \alpha + {{\text{act}}}(t)\right)}}
+\end{dmath*}
+
+\begin{dmath*}
+\frac{d{I_{\text{comp}}}(t)}{dt} \cdot {\text{ICtau}} = - {\text{nb-neurons-H}} \cdot \operatorname{mean}{\left({r}(t) \right)} + 15
+\end{dmath*}
+
+\\ \hline
+
+
+
+\end{tabularx}
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.15\linewidth}|X|}\hline
+
+\textbf{Name} & BVC\_Neuron \\ \hline
+\textbf{Type} & User-defined model of a rate-coded neuron.\\ \hline
+\textbf{Equations} &
+
+
+\begin{dmath*}
+{k}(t) = {\text{use}}_{\text{syninput}} \cdot \left({\text{H2BVCphi}} \cdot {\text{Imod}} \cdot \operatorname{sum}{\left(H2BVC \right)} + {\text{OVC2BVCphi}} \cdot \operatorname{sum}{\left(OVC2BVC \right)} + {\text{PR2BVCphi}} \cdot \operatorname{sum}{\left(PR2BVC \right)} + {\text{Pmod}} \cdot {\text{TR2BVCphi}} \cdot \operatorname{sum}{\left(TR2BVC \right)} + \operatorname{sum}{\left(BVC2BVC \right)}\right) - {{\text{act}}}(t)
+\end{dmath*}
+
+\begin{dmath*}
+\frac{d{{\text{act}}}(t)}{dt} \cdot \tau = {k}(t)
+\end{dmath*}
+
+\begin{dmath*}
+{r}(t) = \frac{1}{1 + e^{- 2 \cdot \beta \cdot \left(- \alpha + {{\text{act}}}(t)\right)}}
+\end{dmath*}
+
+\\ \hline
+
+
+
+\end{tabularx}
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.15\linewidth}|X|}\hline
+
+\textbf{Name} & PR\_Neuron \\ \hline
+\textbf{Type} & User-defined model of a rate-coded neuron.\\ \hline
+\textbf{Equations} &
+
+
+\begin{dmath*}
+{k}(t) = {\text{cue}}_{\text{percep}} + {\text{use}}_{\text{syninput}} \cdot \left({\text{BVC2PRphi}} \cdot \operatorname{sum}{\left(BVC2PR \right)} + {\text{H2PRphi}} \cdot {\text{Imod}} \cdot \operatorname{sum}{\left(H2PR \right)} + \operatorname{sum}{\left(PR2PR \right)}\right) - {{\text{act}}}(t)
+\end{dmath*}
+
+\begin{dmath*}
+\frac{d{{\text{act}}}(t)}{dt} \cdot \tau = {k}(t)
+\end{dmath*}
+
+\begin{dmath*}
+{r}(t) = \frac{1}{1 + e^{- 2 \cdot \beta \cdot \left(- \alpha + {{\text{act}}}(t)\right)}}
+\end{dmath*}
+
+\\ \hline
+
+
+
+\end{tabularx}
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.15\linewidth}|X|}\hline
+
+\textbf{Name} & oPR\_Neuron \\ \hline
+\textbf{Type} & User-defined model of a rate-coded neuron.\\ \hline
+\textbf{Equations} &
+
+
+\begin{dmath*}
+{k}(t) = {\text{use}}_{\text{syninput}} \cdot \left(\sum_{\text{oPR2oPR}} w \cdot r^{\text{pre}}(t-d) \cdot {\text{oPR2oPRphi}} + {\text{Cue}} \cdot {\text{recallobj}} + {\text{H2oPRphi}} \cdot \operatorname{sum}{\left(H2oPR \right)} + {\text{OVC2oPRphi}} \cdot \operatorname{sum}{\left(OVC2oPR \right)} + 200 \cdot {\text{oPR}}_{\text{drive}} \cdot {\text{percep}}_{\text{flag}}\right) - {{\text{act}}}(t)
+\end{dmath*}
+
+\begin{dmath*}
+\frac{d{{\text{act}}}(t)}{dt} \cdot \tau = {k}(t)
+\end{dmath*}
+
+\begin{dmath*}
+{r}(t) = \frac{1}{1 + e^{- 2 \cdot \beta \cdot \left(- \alpha + {{\text{act}}}(t)\right)}}
+\end{dmath*}
+
+\\ \hline
+
+
+
+\end{tabularx}
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.15\linewidth}|X|}\hline
+
+\textbf{Name} & PW\_Neuron \\ \hline
+\textbf{Type} & User-defined model of a rate-coded neuron.\\ \hline
+\textbf{Equations} &
+
+
+\begin{dmath*}
+{k}(t) = {\text{use}}_{\text{syninput}} \cdot \left(\sum_{\text{TR2PW}} w \cdot r^{\text{pre}}(t-d) \cdot {\text{Imod}} \cdot {\text{TR2PWphi}} + {\text{BcueScale}} \cdot {\text{ego-cue-percep}} \cdot {\text{use-ego-cue-percep}} - 100 \cdot {\text{bath}}\right) - {{\text{act}}}(t)
+\end{dmath*}
+
+\begin{dmath*}
+\frac{d{{\text{act}}}(t)}{dt} \cdot \tau = {k}(t)
+\end{dmath*}
+
+\begin{dmath*}
+{r}(t) = \frac{1}{1 + e^{- 2 \cdot \beta \cdot \left(- \alpha + {{\text{act}}}(t)\right)}}
+\end{dmath*}
+
+\\ \hline
+
+
+
+\end{tabularx}
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.15\linewidth}|X|}\hline
+
+\textbf{Name} & oPW\_Neuron \\ \hline
+\textbf{Type} & User-defined model of a rate-coded neuron.\\ \hline
+\textbf{Equations} &
+
+
+\begin{dmath*}
+{k}(t) = {\text{ObjCue}}_{\text{percep}} \cdot {\text{OcueScale}} + {\text{use}}_{\text{syninput}} \cdot \left({\text{Imod}} \cdot {\text{TR2oPWphi}} \cdot \operatorname{sum}{\left(oTR2oPW \right)} - {\text{bath}} \cdot {\text{nb-neurons-oPW}} \cdot \operatorname{mean}{\left({r}(t) \right)}\right) - {{\text{act}}}(t)
+\end{dmath*}
+
+\begin{dmath*}
+\frac{d{{\text{act}}}(t)}{dt} \cdot \tau = {k}(t)
+\end{dmath*}
+
+\begin{dmath*}
+{r}(t) = \frac{1}{1 + e^{- 2 \cdot \beta \cdot \left(- \alpha + {{\text{act}}}(t)\right)}}
+\end{dmath*}
+
+\\ \hline
+
+
+
+\end{tabularx}
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.15\linewidth}|X|}\hline
+
+\textbf{Name} & TR\_Neuron \\ \hline
+\textbf{Type} & User-defined model of a rate-coded neuron.\\ \hline
+\textbf{Equations} &
+
+
+\begin{dmath*}
+{k}(t) = {\text{use}}_{\text{syninput}} \cdot \left({\text{BVC2TRphi}} \cdot {\text{Imod}} \cdot \operatorname{sum}{\left(BVC2TR \right)} + {\text{HD2TRphi}} \cdot \operatorname{sum}{\left(HD2TR \right)} - {\text{IP2TRphi}} \cdot \operatorname{sum}{\left(IP2TR \right)} + {\text{PW2TRphi}} \cdot {\text{Pmod}} \cdot \operatorname{sum}{\left(PW2TR \right)} - {\text{bath}} \cdot \operatorname{sum}{\left(TR2TR \right)}\right) - {{\text{act}}}(t)
+\end{dmath*}
+
+\begin{dmath*}
+\frac{d{{\text{act}}}(t)}{dt} \cdot \tau = {k}(t)
+\end{dmath*}
+
+\begin{dmath*}
+{r}(t) = \frac{1}{1 + e^{- 2 \cdot \beta \cdot \left(- \alpha + {{\text{act}}}(t)\right)}}
+\end{dmath*}
+
+\\ \hline
+
+
+
+\end{tabularx}
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.15\linewidth}|X|}\hline
+
+\textbf{Name} & OVC\_Neuron \\ \hline
+\textbf{Type} & User-defined model of a rate-coded neuron.\\ \hline
+\textbf{Equations} &
+
+
+\begin{dmath*}
+{k}(t) = {\text{use}}_{\text{syninput}} \cdot \left({\text{BVC2OVCphi}} \cdot \operatorname{sum}{\left(BVC2OVC \right)} + {\text{H2OVCphi}} \cdot {\text{Imod}} \cdot \operatorname{sum}{\left(H2OVC \right)} + {\text{Imod}} \cdot {\text{oPR2OVCphi}} \cdot \operatorname{sum}{\left(oPR2OVC \right)} + {\text{OVC2OVCphi}} \cdot \operatorname{sum}{\left(OVC2OVC \right)} + {\text{Pmod}} \cdot {\text{TR2OVCphi}} \cdot \operatorname{sum}{\left(oTR2OVC \right)}\right) - {{\text{act}}}(t)
+\end{dmath*}
+
+\begin{dmath*}
+\frac{d{{\text{act}}}(t)}{dt} \cdot \tau = {k}(t)
+\end{dmath*}
+
+\begin{dmath*}
+{r}(t) = \frac{1}{1 + e^{- 2 \cdot \beta \cdot \left(- \alpha + {{\text{act}}}(t)\right)}}
+\end{dmath*}
+
+\\ \hline
+
+
+
+\end{tabularx}
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.15\linewidth}|X|}\hline
+
+\textbf{Name} & oTR\_Neuron \\ \hline
+\textbf{Type} & User-defined model of a rate-coded neuron.\\ \hline
+\textbf{Equations} &
+
+
+\begin{dmath*}
+{k}(t) = {\text{use}}_{\text{syninput}} \cdot \left({\text{HD2oTRphi}} \cdot \operatorname{sum}{\left(HD2oTR \right)} - {\text{IP2oTRphi}} \cdot \operatorname{sum}{\left(IP2oTR \right)} + {\text{Imod}} \cdot {\text{OVC2oTRphi}} \cdot \operatorname{sum}{\left(OVC2oTR \right)} + {\text{Pmod}} \cdot {\text{oPW2oTRphi}} \cdot \operatorname{sum}{\left(oPW2oTR \right)} - {\text{bath}} \cdot \operatorname{sum}{\left(oTR2oTR \right)}\right) - {{\text{act}}}(t)
+\end{dmath*}
+
+\begin{dmath*}
+\frac{d{{\text{act}}}(t)}{dt} \cdot \tau = {k}(t)
+\end{dmath*}
+
+\begin{dmath*}
+{r}(t) = \frac{1}{1 + e^{- 2 \cdot \beta \cdot \left(- \alpha + {{\text{act}}}(t)\right)}}
+\end{dmath*}
+
+\\ \hline
+
+
+
+\end{tabularx}
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.15\linewidth}|X|}\hline
+
+\textbf{Name} & Convolution operation \\ \hline
+\textbf{Type} & Convoluted kernel over the pre-synaptic population.\\ \hline
+
+\textbf{PSP} & \begin{dmath*}
+w(t) \cdot {r^{\text{pre}}}(t-d)
+\end{dmath*}
+\\ \hline
+
+
+
+
+\end{tabularx}
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|X|}\hline
+\hdr{1}{F}{Parameters}\\ \hline
+\\ \hline
+\end{tabularx}
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.25\linewidth}|p{0.25\linewidth}|X|}\hline
+\textbf{Population} & \textbf{Parameter} & \textbf{Value}   \\ \hline
+
+    EP             & $\tau$        & 10.0  \\ \hline
+
+                 & ${\text{baseline}}$        & 0.0  \\ \hline
+
+\end{tabularx}
+
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.25\linewidth}|p{0.25\linewidth}|X|}\hline
+\textbf{Population} & \textbf{Parameter} & \textbf{Value}   \\ \hline
+
+    X\_FEF             & $A$        & 1.0  \\ \hline
+
+                 & $\tau$        & 10.0  \\ \hline
+
+                 & $w_{\text{inh}}$        & 0.2  \\ \hline
+
+                 & $X_{\text{FEFsc}}$        & 0.2  \\ \hline
+
+                 & ${\text{num-neurons-w}}$        & 21  \\ \hline
+
+                 & ${\text{num-neurons-h}}$        & 16  \\ \hline
+
+\end{tabularx}
+
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.25\linewidth}|p{0.25\linewidth}|X|}\hline
+\textbf{Population} & \textbf{Parameter} & \textbf{Value}   \\ \hline
+
+    LIP\_EP             & $A$        & 1.0  \\ \hline
+
+                 & $D$        & 0.1  \\ \hline
+
+                 & $\tau$        & 10.0  \\ \hline
+
+                 & $w_{\text{inh}}$        & 0.06  \\ \hline
+
+                 & ${\text{FFsc}}$        & 0.35  \\ \hline
+
+                 & ${\text{FEFsc}}$        & 0.3  \\ \hline
+
+                 & ${\text{vSSP}}$        & 0.01  \\ \hline
+
+                 & ${\text{num-neurons-w}}$        & 21  \\ \hline
+
+                 & ${\text{num-neurons-h}}$        & 16  \\ \hline
+
+\end{tabularx}
+
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.25\linewidth}|p{0.25\linewidth}|X|}\hline
+\textbf{Population} & \textbf{Parameter} & \textbf{Value}   \\ \hline
+
+    LIP\_CD             & $A$        & 0.5  \\ \hline
+
+                 & $D$        & 0.1  \\ \hline
+
+                 & $\tau$        & 10.0  \\ \hline
+
+                 & $w_{\text{inh}}$        & 0.03  \\ \hline
+
+                 & ${\text{FBsc}}$        & 0.75  \\ \hline
+
+                 & ${\text{FEFsc}}$        & 0.15  \\ \hline
+
+                 & ${\text{vSSP}}$        & 0.4  \\ \hline
+
+                 & ${\text{num-neurons-w}}$        & 21  \\ \hline
+
+                 & ${\text{num-neurons-h}}$        & 16  \\ \hline
+
+\end{tabularx}
+
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.25\linewidth}|p{0.25\linewidth}|X|}\hline
+\textbf{Population} & \textbf{Parameter} & \textbf{Value}   \\ \hline
+
+    Xh             & $D$        & 0.6  \\ \hline
+
+                 & $\tau$        & 10.0  \\ \hline
+
+                 & ${\text{dt}}_{\text{dep}}$        & 1.0  \\ \hline
+
+                 & $\tau_{\text{dep}}$        & 10000.0  \\ \hline
+
+                 & $d_{\text{dep}}$        & 2.2  \\ \hline
+
+                 & $w_{\text{inh}}$        & 0.1  \\ \hline
+
+                 & ${\text{neglect}}$        & False  \\ \hline
+
+                 & ${\text{FFsc}}$        & 1.2  \\ \hline
+
+                 & ${\text{NEsc}}$        & 0.7  \\ \hline
+
+                 & ${\text{INHsc}}$        & 1.2  \\ \hline
+
+                 & ${\text{num-neurons-w}}$        & 21  \\ \hline
+
+                 & ${\text{num-neurons-h}}$        & 16  \\ \hline
+
+                 & ${\text{baseline}}$        & 0.0  \\ \hline
+
+\end{tabularx}
+
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.25\linewidth}|p{0.25\linewidth}|X|}\hline
+\textbf{Population} & \textbf{Parameter} & \textbf{Value}   \\ \hline
+
+    Input             & $r$        & 0.0  \\ \hline
+
+\end{tabularx}
+
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.25\linewidth}|p{0.25\linewidth}|X|}\hline
+\textbf{Population} & \textbf{Parameter} & \textbf{Value}   \\ \hline
+
+    V1             & ${\text{pV1C}}$        & 2.5  \\ \hline
+
+\end{tabularx}
+
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.25\linewidth}|p{0.25\linewidth}|X|}\hline
+\textbf{Population} & \textbf{Parameter} & \textbf{Value}   \\ \hline
+
+    V4L4             & ${\text{sigmaL4}}$        & 0.4  \\ \hline
+
+                 & ${\text{gHVA4}}$        & 1.066  \\ \hline
+
+                 & $\tau$        & 10  \\ \hline
+
+                 & ${\text{vV1}}$        & 1.0  \\ \hline
+
+                 & ${\text{vFEFvm}}$        & 4.0  \\ \hline
+
+                 & ${\text{vV24}}$        & 1.0  \\ \hline
+
+                 & ${\text{pV24}}$        & 1  \\ \hline
+
+                 & ${\text{vLIP}}$        & 1.0  \\ \hline
+
+                 & ${\text{vF1}}$        & 3.0  \\ \hline
+
+                 & ${\text{pF1}}$        & 3  \\ \hline
+
+                 & ${\text{pE}}$        & 1  \\ \hline
+
+                 & ${\text{vSP1}}$        & 0.85  \\ \hline
+
+                 & ${\text{vSUR1}}$        & 0  \\ \hline
+
+\end{tabularx}
+
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.25\linewidth}|p{0.25\linewidth}|X|}\hline
+\textbf{Population} & \textbf{Parameter} & \textbf{Value}   \\ \hline
+
+    V4L23             & ${\text{sigmaL23}}$        & 1.0  \\ \hline
+
+                 & ${\text{gHVA2}}$        & 1.55  \\ \hline
+
+                 & $\tau$        & 10  \\ \hline
+
+                 & ${\text{pV42}}$        & 0.25  \\ \hline
+
+                 & ${\text{vV42}}$        & 1.0  \\ \hline
+
+                 & ${\text{vPFC}}$        & 1.75  \\ \hline
+
+                 & ${\text{vLIP}}$        & 1.0  \\ \hline
+
+                 & ${\text{vLIP1}}$        & 1.0  \\ \hline
+
+                 & ${\text{vLIP2}}$        & 0.1  \\ \hline
+
+                 & ${\text{vSSP}}$        & 1.5  \\ \hline
+
+\end{tabularx}
+
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.25\linewidth}|p{0.25\linewidth}|X|}\hline
+\textbf{Population} & \textbf{Parameter} & \textbf{Value}   \\ \hline
+
+    AuxV4L4             & ${\text{vLIP1}}$        & 1.0  \\ \hline
+
+                 & ${\text{vLIP2}}$        & 0.1  \\ \hline
+
+\end{tabularx}
+
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.25\linewidth}|p{0.25\linewidth}|X|}\hline
+\textbf{Population} & \textbf{Parameter} & \textbf{Value}   \\ \hline
+
+    AuxV4L23             & ${\text{vSSP1}}$        & 1.0  \\ \hline
+
+                 & ${\text{vSSP2}}$        & 0.1  \\ \hline
+
+\end{tabularx}
+
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.25\linewidth}|p{0.25\linewidth}|X|}\hline
+\textbf{Population} & \textbf{Parameter} & \textbf{Value}   \\ \hline
+
+    FEFv             & $\tau$        & 10  \\ \hline
+
+                 & ${\text{sigmaFEF}}$        & 0.1  \\ \hline
+
+                 & $c$        & 6  \\ \hline
+
+                 & ${\text{vExc}}$        & 0.55  \\ \hline
+
+                 & ${\text{vLIP1}}$        & 0.75  \\ \hline
+
+                 & ${\text{vLIP2}}$        & 0.1  \\ \hline
+
+\end{tabularx}
+
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.25\linewidth}|p{0.25\linewidth}|X|}\hline
+\textbf{Population} & \textbf{Parameter} & \textbf{Value}   \\ \hline
+
+    FEFvm             & $\tau$        & 10  \\ \hline
+
+                 & ${\text{vlow}}$        & 0.2  \\ \hline
+
+                 & ${\text{vEv}}$        & 0.6  \\ \hline
+
+                 & ${\text{vSv1}}$        & 0.6  \\ \hline
+
+                 & ${\text{vFEFv}}$        & 1.0  \\ \hline
+
+\end{tabularx}
+
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.25\linewidth}|p{0.25\linewidth}|X|}\hline
+\textbf{Population} & \textbf{Parameter} & \textbf{Value}   \\ \hline
+
+    FEFm             & $\tau$        & 65  \\ \hline
+
+                 & ${\text{vFEFvm}}$        & 1.0  \\ \hline
+
+                 & ${\text{vSvm}}$        & 0.3  \\ \hline
+
+                 & ${\text{vSFix}}$        & 3  \\ \hline
+
+\end{tabularx}
+
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.25\linewidth}|p{0.25\linewidth}|X|}\hline
+\textbf{Population} & \textbf{Parameter} & \textbf{Value}   \\ \hline
+
+    PFC             & $r$        & 0.0  \\ \hline
+
+\end{tabularx}
+
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.25\linewidth}|p{0.25\linewidth}|X|}\hline
+\textbf{Population} & \textbf{Parameter} & \textbf{Value}   \\ \hline
+
+\end{tabularx}
+
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.25\linewidth}|p{0.25\linewidth}|X|}\hline
+\textbf{Population} & \textbf{Parameter} & \textbf{Value}   \\ \hline
+
+\end{tabularx}
+
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.25\linewidth}|p{0.25\linewidth}|X|}\hline
+\textbf{Population} & \textbf{Parameter} & \textbf{Value}   \\ \hline
+
+    FEFfix             & $r$        & 0.0  \\ \hline
+
+\end{tabularx}
+
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.25\linewidth}|p{0.25\linewidth}|X|}\hline
+\textbf{Population} & \textbf{Parameter} & \textbf{Value}   \\ \hline
+
+    HD             & $\tau$        & 20.0  \\ \hline
+
+                 & $\beta$        & 0.1  \\ \hline
+
+                 & $\alpha$        & 5.0  \\ \hline
+
+                 & ${\text{HD2HDphi}}$        & 15.0  \\ \hline
+
+                 & ${\text{oPR2HDphi}}$        & 60.0  \\ \hline
+
+                 & ${\text{cue}}$        & 0.0  \\ \hline
+
+                 & ${\text{cue}}_{\text{init}}$        & 0.0  \\ \hline
+
+                 & ${\text{percep}}_{\text{flag}}$        & 1.0  \\ \hline
+
+                 & ${\text{imag}}_{\text{flag}}$        & 0.0  \\ \hline
+
+                 & ${\text{Rotphi}}$        & 4.0  \\ \hline
+
+                 & ${\text{CWturn}}$        & 0.0  \\ \hline
+
+                 & ${\text{CCWturn}}$        & 0.0  \\ \hline
+
+\end{tabularx}
+
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.25\linewidth}|p{0.25\linewidth}|X|}\hline
+\textbf{Population} & \textbf{Parameter} & \textbf{Value}   \\ \hline
+
+    BVC             & $\tau$        & 20.0  \\ \hline
+
+                 & $\beta$        & 0.1  \\ \hline
+
+                 & $\alpha$        & 5.0  \\ \hline
+
+                 & ${\text{Pmod}}$        & 0.05  \\ \hline
+
+                 & ${\text{Imod}}$        & 0.05  \\ \hline
+
+                 & ${\text{H2BVCphi}}$        & 2860.0  \\ \hline
+
+                 & ${\text{OVC2BVCphi}}$        & 0.0  \\ \hline
+
+                 & ${\text{TR2BVCphi}}$        & 30.0  \\ \hline
+
+                 & ${\text{PR2BVCphi}}$        & 3.0  \\ \hline
+
+                 & ${\text{use}}_{\text{syninput}}$        & 0.0  \\ \hline
+
+\end{tabularx}
+
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.25\linewidth}|p{0.25\linewidth}|X|}\hline
+\textbf{Population} & \textbf{Parameter} & \textbf{Value}   \\ \hline
+
+    PR             & $\tau$        & 20.0  \\ \hline
+
+                 & $\beta$        & 1.0  \\ \hline
+
+                 & $\alpha$        & 5.0  \\ \hline
+
+                 & ${\text{Pmod}}$        & 0.05  \\ \hline
+
+                 & ${\text{Imod}}$        & 0.05  \\ \hline
+
+                 & ${\text{H2PRphi}}$        & 6000.0  \\ \hline
+
+                 & ${\text{BVC2PRphi}}$        & 75.0  \\ \hline
+
+                 & ${\text{use}}_{\text{syninput}}$        & 0.0  \\ \hline
+
+                 & ${\text{cue}}_{\text{percep}}$        & 0.0  \\ \hline
+
+\end{tabularx}
+
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.25\linewidth}|p{0.25\linewidth}|X|}\hline
+\textbf{Population} & \textbf{Parameter} & \textbf{Value}   \\ \hline
+
+    oPR             & $\tau$        & 20.0  \\ \hline
+
+                 & $\beta$        & 0.1  \\ \hline
+
+                 & $\alpha$        & 5.0  \\ \hline
+
+                 & ${\text{Pmod}}$        & 0.05  \\ \hline
+
+                 & ${\text{Imod}}$        & 0.05  \\ \hline
+
+                 & ${\text{oPR2oPRphi}}$        & 115.0  \\ \hline
+
+                 & ${\text{H2oPRphi}}$        & 1.0  \\ \hline
+
+                 & ${\text{OVC2oPRphi}}$        & 5.0  \\ \hline
+
+                 & ${\text{use}}_{\text{syninput}}$        & 0.0  \\ \hline
+
+                 & ${\text{percep}}_{\text{flag}}$        & 1.0  \\ \hline
+
+                 & ${\text{recallobj}}$        & 0.0  \\ \hline
+
+                 & ${\text{oPR}}_{\text{drive}}$        & 0.0  \\ \hline
+
+                 & ${\text{Cue}}$        & 0.0  \\ \hline
+
+\end{tabularx}
+
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.25\linewidth}|p{0.25\linewidth}|X|}\hline
+\textbf{Population} & \textbf{Parameter} & \textbf{Value}   \\ \hline
+
+    PW             & $\tau$        & 20.0  \\ \hline
+
+                 & $\beta$        & 0.1  \\ \hline
+
+                 & $\alpha$        & 5.0  \\ \hline
+
+                 & ${\text{BcueScale}}$        & 1.6  \\ \hline
+
+                 & ${\text{Pmod}}$        & 0.05  \\ \hline
+
+                 & ${\text{Imod}}$        & 0.05  \\ \hline
+
+                 & ${\text{TR2PWphi}}$        & 35.0  \\ \hline
+
+                 & ${\text{bath}}$        & 0.165  \\ \hline
+
+                 & ${\text{use-ego-cue-percep}}$        & 0.0  \\ \hline
+
+                 & ${\text{ego-cue-percep}}$        & 0.0  \\ \hline
+
+                 & ${\text{use}}_{\text{syninput}}$        & 0.0  \\ \hline
+
+\end{tabularx}
+
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.25\linewidth}|p{0.25\linewidth}|X|}\hline
+\textbf{Population} & \textbf{Parameter} & \textbf{Value}   \\ \hline
+
+    H             & $\tau$        & 20.0  \\ \hline
+
+                 & $\beta$        & 0.1  \\ \hline
+
+                 & $\alpha$        & 5.0  \\ \hline
+
+                 & ${\text{ICtau}}$        & 20.0  \\ \hline
+
+                 & ${\text{nb-neurons-H}}$        & 1936.0  \\ \hline
+
+                 & ${\text{Pmod}}$        & 0.05  \\ \hline
+
+                 & ${\text{Imod}}$        & 0.05  \\ \hline
+
+                 & ${\text{Hphi}}$        & 25.0  \\ \hline
+
+                 & ${\text{BVC2Hphi}}$        & 437.0  \\ \hline
+
+                 & ${\text{PR2Hphi}}$        & 25.0  \\ \hline
+
+                 & ${\text{OVC2Hphi}}$        & 5.0  \\ \hline
+
+                 & ${\text{oPR2Hphi}}$        & 100.0  \\ \hline
+
+                 & ${\text{use}}_{\text{syninput}}$        & 0.0  \\ \hline
+
+\end{tabularx}
+
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.25\linewidth}|p{0.25\linewidth}|X|}\hline
+\textbf{Population} & \textbf{Parameter} & \textbf{Value}   \\ \hline
+
+    TR             & $\tau$        & 20.0  \\ \hline
+
+                 & $\beta$        & 0.1  \\ \hline
+
+                 & $\alpha$        & 5.0  \\ \hline
+
+                 & ${\text{Pmod}}$        & 0.05  \\ \hline
+
+                 & ${\text{Imod}}$        & 0.05  \\ \hline
+
+                 & ${\text{bath}}$        & 0.075  \\ \hline
+
+                 & ${\text{HD2TRphi}}$        & 15.0  \\ \hline
+
+                 & ${\text{IP2TRphi}}$        & 90.0  \\ \hline
+
+                 & ${\text{PW2TRphi}}$        & 50.0  \\ \hline
+
+                 & ${\text{BVC2TRphi}}$        & 45.0  \\ \hline
+
+                 & ${\text{use}}_{\text{syninput}}$        & 0.0  \\ \hline
+
+\end{tabularx}
+
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.25\linewidth}|p{0.25\linewidth}|X|}\hline
+\textbf{Population} & \textbf{Parameter} & \textbf{Value}   \\ \hline
+
+    IP             & $\alpha$        & 50.0  \\ \hline
+
+                 & $\beta$        & 0.1  \\ \hline
+
+                 & $\tau$        & 20.0  \\ \hline
+
+                 & ${\text{HD2IPphi}}$        & 10.0  \\ \hline
+
+\end{tabularx}
+
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.25\linewidth}|p{0.25\linewidth}|X|}\hline
+\textbf{Population} & \textbf{Parameter} & \textbf{Value}   \\ \hline
+
+    oPW             & $\tau$        & 20.0  \\ \hline
+
+                 & $\beta$        & 0.1  \\ \hline
+
+                 & $\alpha$        & 5.0  \\ \hline
+
+                 & ${\text{OcueScale}}$        & 0.3  \\ \hline
+
+                 & ${\text{nb-neurons-oPW}}$        & 816.0  \\ \hline
+
+                 & ${\text{Pmod}}$        & 0.05  \\ \hline
+
+                 & ${\text{Imod}}$        & 0.05  \\ \hline
+
+                 & ${\text{TR2oPWphi}}$        & 30.0  \\ \hline
+
+                 & ${\text{bath}}$        & 0.2  \\ \hline
+
+                 & ${\text{use}}_{\text{syninput}}$        & 0.0  \\ \hline
+
+                 & ${\text{ObjCue}}_{\text{percep}}$        & 0.0  \\ \hline
+
+\end{tabularx}
+
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.25\linewidth}|p{0.25\linewidth}|X|}\hline
+\textbf{Population} & \textbf{Parameter} & \textbf{Value}   \\ \hline
+
+    OVC             & $\tau$        & 20.0  \\ \hline
+
+                 & $\beta$        & 0.1  \\ \hline
+
+                 & $\alpha$        & 5.0  \\ \hline
+
+                 & ${\text{Pmod}}$        & 0.05  \\ \hline
+
+                 & ${\text{Imod}}$        & 0.05  \\ \hline
+
+                 & ${\text{H2OVCphi}}$        & 2.1  \\ \hline
+
+                 & ${\text{TR2OVCphi}}$        & 60.0  \\ \hline
+
+                 & ${\text{OVC2OVCphi}}$        & 1.0  \\ \hline
+
+                 & ${\text{BVC2OVCphi}}$        & 0.0  \\ \hline
+
+                 & ${\text{oPR2OVCphi}}$        & 7.2  \\ \hline
+
+                 & ${\text{use}}_{\text{syninput}}$        & 0.0  \\ \hline
+
+\end{tabularx}
+
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.25\linewidth}|p{0.25\linewidth}|X|}\hline
+\textbf{Population} & \textbf{Parameter} & \textbf{Value}   \\ \hline
+
+    oTR             & $\tau$        & 20.0  \\ \hline
+
+                 & $\beta$        & 0.1  \\ \hline
+
+                 & $\alpha$        & 5.0  \\ \hline
+
+                 & ${\text{Pmod}}$        & 0.05  \\ \hline
+
+                 & ${\text{Imod}}$        & 0.05  \\ \hline
+
+                 & ${\text{bath}}$        & 0.1  \\ \hline
+
+                 & ${\text{HD2oTRphi}}$        & 15.0  \\ \hline
+
+                 & ${\text{IP2oTRphi}}$        & 90.0  \\ \hline
+
+                 & ${\text{oPW2oTRphi}}$        & 60.0  \\ \hline
+
+                 & ${\text{OVC2oTRphi}}$        & 110.0  \\ \hline
+
+                 & ${\text{use}}_{\text{syninput}}$        & 0.0  \\ \hline
+
+\end{tabularx}
+
+\end{document}

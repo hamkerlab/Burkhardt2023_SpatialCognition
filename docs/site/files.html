@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <link rel="shortcut icon" href="img/favicon.ico">
+  <title>File Structure - Spacecog</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "File Structure";
+    var mkdocs_page_input_path = "files.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="js/jquery-2.1.1.min.js" defer></script>
+  <script src="js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href="." class="icon icon-home"> Spacecog</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="index.html">Home</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="setup.html">Initial Setup</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="usage.html">Quickstart</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="files.html">File Structure</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#general-structure">General structure</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#python">Python</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#combinedpy">combined.py</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#weights">Weights</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#unity">Unity</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#unity2019">unity2019/</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#appconfigconfig">APPConfig.config</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#assets">Assets/</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href=".">Spacecog</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>File Structure</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="file-structure">File Structure</h1>
+<p>This section will give you a brief introduction to all the individual scripts.</p>
+<h2 id="general-structure">General structure</h2>
+<ul>
+<li><em>combined/</em>: main files for the integrated model<ul>
+<li><em>Results/</em> -&gt; folder for simulation results</li>
+<li><strong>combined.py -&gt; main simulation file, integrates all model parts and runs the simulation</strong></li>
+<li>combinedHelper.py -&gt; helper functions for visualization, video generation, and evaluation</li>
+<li>combinedNet.py -&gt; connects the VIS and LIP models (when generating connections)</li>
+<li>combinedNet_loadConn.py -&gt; connects the VIS and LIP models (when loading conections)</li>
+<li>combinedVis_LIP.py -&gt; main functions for the integrated use of the LIP and VIS models</li>
+<li>config.yaml -&gt; config file for the network</li>
+</ul>
+</li>
+<li><em>SM/</em>: Spatial memory and imagery model (Bicanski &amp; Burgess, 2018)<ul>
+<li><em>data_from_training/</em> -&gt; pre-generated weights for the SM model</li>
+<li><em>targets</em>/ -&gt; target stimuli for plotting</li>
+<li>SM_BoundaryCueing.py -&gt; cue with spatial boundaries</li>
+<li>SM_PdrivePW_withObj.py -&gt; spatial updating with objects</li>
+<li>SM_helper_functionsp.y -&gt; helper functions for cueing and coordinate systems</li>
+<li>SM_init.py -&gt; inits the network</li>
+<li>SM_integrated -&gt; integrated SM functions for the main simulation</li>
+<li>SM_load_mat_files.py -&gt; loads weights</li>
+<li>SM_network.py -&gt; connections between SM populations</li>
+<li>SM_neuron_model -&gt; neuron models for the SM model</li>
+<li>SM_parameters.py -&gt; parameters</li>
+<li>SM_roomGridPositionS.py -&gt; get live positional data for objects (only for 3 targets)</li>
+<li>SM_updateWTS2.py -&gt; update weights after encoding an object</li>
+<li>SM_visualize.py -&gt; visualization and plotting</li>
+<li>SM_vr_functions.py -&gt; interactions with Unity</li>
+</ul>
+</li>
+<li><em>LIP/</em>: LIP model (Bergelt &amp; Hamker, 2019)<ul>
+<li>LIP_connectionPattern.py -&gt; creates custom connection patterns between populations</li>
+<li>LIP_generateSignals.py -&gt; generates eye position and attention signal</li>
+<li>LIP_network.py -&gt; neuron models and connections between populations (generate)</li>
+<li>LIP_network_loadConn.py -&gt; neuron models and connections between populations (load)</li>
+<li>LIP_parameters.py -&gt; parameters</li>
+</ul>
+</li>
+<li><em>VIS/</em>: Visual model (Beuth, 2019)<ul>
+<li><em>Data/</em> -&gt; pre-trained weights for the three target objects</li>
+<li>VIS_Connections.py -&gt; custom connections between VIS populations</li>
+<li>VIS_InitializationVR.py -&gt; initializes parameters for V1 preprocessing</li>
+<li>VIS_MainHelperVR.py -&gt; helper functions for VIS model</li>
+<li>VIS_Network.py -&gt; neuron models and connections between population</li>
+<li>VIS_ParamVR.py -&gt; Unity related parameters</li>
+<li>VIS_PreprocessingVR.py -&gt; prepares the pre-processed image</li>
+<li>VIS_SaccGenVR.py -&gt; saccade generator</li>
+<li>VIS_SaveResultsVR.py -&gt;savig and plotting</li>
+<li>VIS_VisualVR.py -&gt; visualization functions</li>
+<li>VIS_funcitons.py -&gt; additional helper functions</li>
+<li>VIS_parameters.py -&gt; main parameters for the network</li>
+</ul>
+</li>
+<li><em>UnityVR/</em>: Unity environment and network interface<ul>
+<li>newAgentBrain -&gt; python side of network interface built with protcol buffers</li>
+<li>unity2019 -&gt; Unity project to be run on a separate windows machine</li>
+</ul>
+</li>
+</ul>
+<h2 id="python">Python</h2>
+<h4 id="combinedpy">combined.py</h4>
+<p>This is the main file of the model. After importing all necessary modules including ANNarchy and the Network Interface, the network is compiled. It then executes the individual steps of the simulation numbered from 1-6:</p>
+<ol>
+<li>walk to target object</li>
+<li>get position of target object</li>
+<li>encode target object </li>
+<li>walk to different position</li>
+<li>recall target object</li>
+<li>execute saccade</li>
+</ol>
+<h4 id="weights">Weights</h4>
+<p>The model contains two sets of weights.</p>
+<ol>
+<li>SM model</li>
+<li>VIS model</li>
+</ol>
+<p><strong>SM Model</strong></p>
+<p>The weights of the SM model can be calculated with the MATLAB script from the eLife publication:</p>
+<pre><code>    https://github.com/bicanski/HBPcollab/tree/master/SpatialEpisodicMemoryModel-v1.0
+</code></pre>
+<p>With some work, some other geometries should be possible as well. </p>
+<p><strong>VIS</strong></p>
+<p>The VIS model needs pre-learned weights for object localization which were generated with the one-shot learning procedure (Beuth, 2019). They are stored in <em>VIS/Data/3obj_5rot_2size.mat</em> and contain</p>
+<ol>
+<li>
+<p>Three objects: Green and yellow crane, green racecar
+    <img alt="image info" src="images/objects.png" /></p>
+</li>
+<li>
+<p>5 rotations and 2 sizes for each object
+    <img alt="image info" src="images/sizes.png" /></p>
+</li>
+</ol>
+<p>This selection is a pretty good fit for not only computational speed but also for robustness, as the VIS model gets very nervous with the small sizes of the 
+objects being included into the weights. </p>
+<p>If different sizes and rotations are needed, you can create them from <em>weightsObjLoc.mat</em>. With a shape of 180x1505, the ordering along the first dimension is:</p>
+<ul>
+<li>1-60: yellow crane</li>
+<li>61-120: green crane</li>
+<li>121-180: green racecar</li>
+<li>Within each object: 12 rotations (counter-clockwise, starting with the object facing the camera) and five sizes, starting with the largest size</li>
+</ul>
+<h2 id="unity">Unity</h2>
+<p>This section will give you a brief introduction to all the individual Unity scripts.</p>
+<h3 id="unity2019"><em>unity2019/</em></h3>
+<p>This folder contains the complete Unity project including networking scripts. 
+The most important parts are the <em>Assets/</em> folder and then <em>APPConfig.config</em></p>
+<h4 id="appconfigconfig">APPConfig.config</h4>
+<p>This file includes some config parameters. The most important ones are:</p>
+<pre><code>    &lt;LocalPort&gt;1337&lt;/LocalPort&gt;         // Unity port
+    &lt;IPAddress&gt;192.168.0.12&lt;/IPAddress&gt; // Local IP
+    &lt;sphericalProjection&gt;true&lt;/sphericalProjection&gt;  // use the spherical projection
+</code></pre>
+<h4 id="assets">Assets/</h4>
+<p>All Unity assets, scripts and the shperical projection shader are in this folder.
+Useful scripts might be (and contain among other things):</p>
+<ul>
+<li>AgentScript.cs -&gt; Mostly eye and body movements of the agent</li>
+<li>BehaviourScript.cs -&gt; Main control class for the environment, change your IP here</li>
+<li>SpatialCognitionAgentScript.cs -&gt; Agent movement on specific path</li>
+<li>SpatialCognitionBehaviourScript.cs -&gt; Shader, A* search, initial agent position</li>
+</ul>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="usage.html" class="btn btn-neutral" title="Quickstart"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="usage.html" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+    </span>
+</div>
+    <script>var base_url = '.';</script>
+    <script src="js/theme.js" defer></script>
+      <script src="search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
