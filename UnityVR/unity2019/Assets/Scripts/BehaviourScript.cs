@@ -146,14 +146,15 @@ public partial class BehaviourScript : MonoBehaviour
     /// <summary>
     /// Resets the VR, you have to define your scenarios here!
     /// </summary>
-    protected void Reset()
+    /// <param name="reset_agent">If set to true, the agent position is reseted to its default position (default: true).</param>
+    protected void Reset(bool reset_agent = true)
     {
-		
-		for(int i = 0; i < agentScripts.Length; i++)
-		{
-			agentScripts[i].AgentReset();
-		}
-		
+		if (reset_agent) {
+            for(int i = 0; i < agentScripts.Length; i++)
+            {
+                agentScripts[i].AgentReset();
+            }
+        }
         
         RemoveAllBarriers();
 

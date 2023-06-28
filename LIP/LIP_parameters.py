@@ -14,7 +14,7 @@ with open("config.yaml", "r") as config_file:
 defParams['save_connections'] = config['create_connections']
 defParams['saveConnAt'] ='connections'
 
-if config['Experiment'] == 4 or (config['RemoteDesktop'] == False and config['replication_experiment'] == 4):
+if config['Experiment'] == 3 or (config['RemoteDesktop'] == False and config['replication_exp'] == 3):
     defParams['neglect'] = True
 else:
     defParams['neglect'] = False  

@@ -39,6 +39,11 @@ public class cConfiguration
 	{
 		get; set;
 	}
+
+    public bool  MakeVideo
+	{
+		get; set;
+	}
 		
 	public float SimulationTimePerFrame
 	{
@@ -109,6 +114,7 @@ public class cConfiguration
         //this.LocalIP = Buffer.LocalIP;
         this.LocalPort = Buffer.LocalPort;
 		this.SyncMode = Buffer.SyncMode;
+        this.MakeVideo = Buffer.MakeVideo;
 		this.SimulationTimePerFrame = Buffer.SimulationTimePerFrame;
 		this.ImageResolutionWidth = Buffer.ImageResolutionWidth;
         this.ImageResolutionHeight = Buffer.ImageResolutionHeight;
@@ -130,6 +136,7 @@ public class cConfiguration
         this.LocalPort = 1337;
         //this.LocalIP = "134.109.204.12";
 		this.SyncMode = false;
+        this.MakeVideo = false;
 		
 		this.SimulationTimePerFrame = 0.1f;
 		this.ImageResolutionWidth = 512;

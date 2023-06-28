@@ -48,7 +48,9 @@ We start with inizializing the virtual environment:
 
 5. Start the scene by pressing the play button at the top. If everything is good to go, Felice should make a pointing animation towards the target objects.
 
-6. To test the network interface, you can now run the *demo.py* script on your server, which will run the computational network. The file is located in the *UnityVR/newAgentbrain/* folder, and you will need to add the IP of the Unity computer.
+6. Switch back to the *Console* tab at the bottom to see important debug output
+
+7. To test the network interface, you can now run the *demo.py* script on your server, which will run the computational network. The file is located in the *UnityVR/newAgentbrain/* folder, and you will need to add the IP of the Unity computer.
 
 
 To use Unity with the computational model, we need one last setup step on the Python side:

@@ -118,6 +118,7 @@ This file includes some config parameters. The most important ones are:
 		<LocalPort>1337</LocalPort>     	// Unity port
         <IPAddress>192.168.0.12</IPAddress> // Local IP
 		<sphericalProjection>true</sphericalProjection>  // use the spherical projection
+        <MakeVideo>false</MakeVideo> // video creation (also has to be True in the Python config.yaml) 
 
 #### Assets/
 

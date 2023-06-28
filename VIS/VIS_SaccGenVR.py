@@ -166,3 +166,19 @@ def SaccadeGenerator2(eye0, eye1, MinSpeed = 22, MinDistance = 0.05, saccadeEndB
     print("and goes from",eyePos[0],"deg to",eyePos[currentTimestep], "deg")
         
     return eyePos
+
+
+def spherical_to_linear(vector, FoVV=77.0, FoVH=102):
+    """ Convert the spherical coordinate vector back to linear coordinates. """
+    wclip = FoVV / 2
+    v = np.asarray(vector) / wclip
+    PHI = FoVV * np.pi / 360.0
+    THETA = PHI * FoVH / FoVV
+    d = np.linalg.norm(v)
+    y = d*np.sin(v[1] * PHI)
+    if d > 0:
+        cphi = np.cos(np.arcsin(y/d))
+        x = d * cphi * np.sin(THETA * v[0] / cphi)
+    else:
+        x = 0
+    return [x * wclip, (v[1] + y)/2 * wclip]

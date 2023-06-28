@@ -1,3 +1,0 @@
-Encoding: 1, green crane
-1st position: [8.3, 5.0, 213, -15]
-1st localization: 145 steps

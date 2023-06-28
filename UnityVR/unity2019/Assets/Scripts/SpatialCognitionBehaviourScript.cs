@@ -118,16 +118,18 @@ public class SpatialCognitionBehaviourScript : BehaviourScript
         this.tablePos = new Vector3[5];
 
         this.tablePos[0] = GameObject.Find("racecar_green").transform.position;
-        this.tablePos[1] = GameObject.Find("teddy").transform.position;
+        this.tablePos[1] = GameObject.Find("teddy_distractor").transform.position;
         this.tablePos[2] = GameObject.Find("carCraneYellow").transform.position;
         this.tablePos[3] = GameObject.Find("carCraneGreen").transform.position;
-        this.tablePos[4] = GameObject.Find("pencil_blue_notEncoded").transform.position;
-        activeObj = 3;
+        this.tablePos[4] = GameObject.Find("pencil_blue_distractor").transform.position;
+        
+		activeObj = 3;
         sceneDiffuse = GameObject.Find("DiffuseShaders");
         sceneTables = GameObject.Find("NatureShaders");
 		
 		//The main cameras should render without the sperical shader:
 		Shader rs = Shader.Find("Diffuse");
+		//Shader rs = Shader.Find("Shader/Replacement");
 		MainCamera.SetReplacementShader(rs, "");	
 		MainCamera2.SetReplacementShader(rs, "");
 		
@@ -198,7 +200,7 @@ public class SpatialCognitionBehaviourScript : BehaviourScript
                     {
                         m.SetColor("_Color", new Color(78.0f / 255.0f, 55.0f / 255.0f, 28.0f / 255.0f, 1));
                     }
-					if (m.name == "car_crane_green (Instance)")
+					if (m.name == "carCraneGreen (Instance)")
                     {
                         m.SetColor("_Color", new Color(0.0f / 255.0f, 211.0f / 255.0f, 5.0f / 255.0f, 1));
                     }
@@ -233,6 +235,10 @@ public class SpatialCognitionBehaviourScript : BehaviourScript
                     if (m.name == "racecar_white (Instance)")
                     {
                         m.SetColor("_Color", new Color(253.0f / 255.0f, 231.0f / 255.0f, 204.0f / 255.0f, 1));
+                    }
+					if (m.name == "teddy-teddy_brown_skin (Instance)")
+                    {
+                        m.SetColor("_Color", new Color(140.0f / 255.0f, 100.0f / 255.0f, 67.0f / 255.0f, 1));
                     }
                 }
             }
@@ -627,28 +633,20 @@ public class SpatialCognitionBehaviourScript : BehaviourScript
 			objectPositionsWriter.WriteLine(GameObject.Find("carCraneGreen").transform.position);
 		objectPositionsWriter.Write(2 + "  ");
 			objectPositionsWriter.Write("dog  ");
-			objectPositionsWriter.Write(getGridCoordinates(GameObject.Find("dog").transform.position,false) + "  ");
-			objectPositionsWriter.WriteLine(GameObject.Find("dog").transform.position);
+			objectPositionsWriter.Write(getGridCoordinates(GameObject.Find("dog_distractor").transform.position,false) + "  ");
+			objectPositionsWriter.WriteLine(GameObject.Find("dog_distractor").transform.position);
 		objectPositionsWriter.Write(3 + "  ");
 			objectPositionsWriter.Write("carCrane  ");	
 			objectPositionsWriter.Write(getGridCoordinates(GameObject.Find("carCrane").transform.position,false) + "  ");
 			objectPositionsWriter.WriteLine(GameObject.Find("carCrane").transform.position);
-		//objectPositionsWriter.Write(4 + "  ");
-		//	objectPositionsWriter.Write("jellyRed  ");	
-		//	objectPositionsWriter.Write(getGridCoordinates(GameObject.Find("jellyRed").transform.position,false) + "  ");
-		//	objectPositionsWriter.WriteLine(GameObject.Find("jellyRed").transform.position);
 		objectPositionsWriter.Write(5 + "  ");
 			objectPositionsWriter.Write("penBlue  ");
-			objectPositionsWriter.Write(getGridCoordinates(GameObject.Find("pencil_blue").transform.position,false) + "  ");
-			objectPositionsWriter.WriteLine(GameObject.Find("pencil_blue").transform.position);
+			objectPositionsWriter.Write(getGridCoordinates(GameObject.Find("pencil_blue_distractor").transform.position,false) + "  ");
+			objectPositionsWriter.WriteLine(GameObject.Find("pencil_blue_distractor").transform.position);
 		objectPositionsWriter.Write(6 + "  ");
 			objectPositionsWriter.Write("penGreen  ");
-			objectPositionsWriter.Write(getGridCoordinates(GameObject.Find("pencil_green").transform.position,false) + "  ");
-			objectPositionsWriter.WriteLine(GameObject.Find("pencil_green").transform.position);
-		//objectPositionsWriter.Write(7 + "  ");
-		//	objectPositionsWriter.Write("penBlack  ");
-		//	objectPositionsWriter.Write(getGridCoordinates(GameObject.Find("pencil_black").transform.position,false) + "  ");
-		//	objectPositionsWriter.WriteLine(GameObject.Find("pencil_black").transform.position);
+			objectPositionsWriter.Write(getGridCoordinates(GameObject.Find("pencil_green_distractor").transform.position,false) + "  ");
+			objectPositionsWriter.WriteLine(GameObject.Find("pencil_green_distractor").transform.position);
 		objectPositionsWriter.Write(8 + "  ");
 			objectPositionsWriter.Write("penRed  ");
 			objectPositionsWriter.Write(getGridCoordinates(GameObject.Find("pencil_red").transform.position,false) + "  ");
@@ -935,7 +933,9 @@ public class SpatialCognitionBehaviourScript : BehaviourScript
 	/// </summary>
 	/// <param name="msg">protobuf message</param>
 	protected override void ProcessMsgEnvironmentReset( MsgEnvironmentReset msg )
-    {			
+    {
+		bool reset_agent = true;
+
 		switch(msg.Type)
 		{
 		// Object recognition
@@ -961,27 +961,79 @@ public class SpatialCognitionBehaviourScript : BehaviourScript
 			break;
 		// Vision and memory
 		case 3:
+			Debug.Log("Experiment: Vision and Memory");
+			reset_agent = true;
+
 			agentScripts[0].DefaultAgentPosition = new Vector3(8.0f,0.02f,17.0f); 
 			agentScripts[0].DefaultRotation = 180; //135 with center table
 			GameObject.Find("MainCamera").transform.position = new Vector3(5f,11.26f,6.38f); 
 			GameObject.Find("MainCamera").transform.eulerAngles = new Vector3(52.0f,69.3f,358.5f);
 			GameObject.Find("MainCamera2").transform.position = new Vector3(10.0f,15.0f,10.0f); 
 			GameObject.Find("MainCamera2").transform.eulerAngles = new Vector3(90.0f,0.0f,0.0f);
+
+			//Main Objects
+			GameObject.Find("carCraneGreen").transform.position = new Vector3(7.818f,3.067f,1.4f);
+			GameObject.Find("carCraneGreen").transform.rotation = Quaternion.Euler(270.0f,360.0f,-61.353f);
+			GameObject.Find("carCraneGreen_neglect").transform.position = new Vector3(13.05f,3.056f,0.82f);
+			GameObject.Find("carCraneGreen_neglect").transform.rotation = Quaternion.Euler(270.0f,360.0f,-68.0f);
+			GameObject.Find("carCraneYellow").transform.position = new Vector3(6.37f,3.066f,1.688f);
+			GameObject.Find("racecar_green").transform.position = new Vector3(7.351f,2.829f,2.323f);
+
+			// Distractor objects
+			GameObject.Find("dog_distractor").transform.position = new Vector3(8.863f,3.056f,1.232f);
+			GameObject.Find("teddy_distractor").transform.position = new Vector3(4.83f,3.151f,0.8f);
+			GameObject.Find("teddy_distractor").transform.rotation = Quaternion.Euler(-90.0f,0.0f,0.0f);
+			GameObject.Find("duck_yellow_distractor").transform.position = new Vector3(9.954f,3.113f,1.516f);
+			GameObject.Find("duck_yellow_distractor").transform.rotation = Quaternion.Euler(-90.0f,0.0f,180.0f);
+			GameObject.Find("racecar_red_distractor").transform.position = new Vector3(9.503f,2.833f,2.467f);
+			GameObject.Find("pencil_yellow_distractor").transform.position = new Vector3(10.646f,2.815f,2.844f);
+			GameObject.Find("pencil_green_distractor").transform.position = new Vector3(10.412f,2.815f,2.402f);
+			GameObject.Find("openTopMachine_distractor").transform.position = new Vector3(11.62f,2.907f,0.777f);
+			GameObject.Find("cookie_manikin_blue").transform.position = new Vector3(10.736f,2.666f,0.961f);
+			GameObject.Find("bookBlue").transform.position = new Vector3(12.27f,2.687f,1.297f);
 			break;
-		// Multiple attention pointers
+		// Vision and memory - Cluttered scene
 		case 4:
-			agentScripts[0].DefaultAgentPosition = new Vector3(0.45f,0.02f,7.5f); 
-			agentScripts[0].DefaultRotation = 0;
-			GameObject.Find("MainCamera").transform.position = new Vector3(-0.92f,4.09f,8.23f); 
-			GameObject.Find("MainCamera").transform.eulerAngles = new Vector3(52.0f,114.03f,358.5f); 
-			//GameObject.Find("pencil_red").transform.position = new Vector3(0.241f,1.89f,8.48f); 
+			Debug.Log("Experiment: Vision and Memory (shifted objects on table)");
+			reset_agent = false;
+
+			// Distractor objects
+			GameObject.Find("dog_distractor").transform.position = new Vector3(7.451f,3.056f,2.719f);
+			GameObject.Find("teddy_distractor").transform.position = new Vector3(6.53f,3.151f,2.479f);
+			GameObject.Find("teddy_distractor").transform.rotation = Quaternion.Euler(-90.0f,0.0f,41.0f);
+			GameObject.Find("duck_yellow_distractor").transform.position = new Vector3(8.174f,3.123f,2.281f);
+			GameObject.Find("duck_yellow_distractor").transform.rotation = Quaternion.Euler(-90.0f,0.0f,79.38f);
+			
+			GameObject.Find("racecar_red_distractor").transform.position = new Vector3(8.614f,2.833f,1.14f);
+			GameObject.Find("pencil_yellow_distractor").transform.position = new Vector3(4.684f,2.815f,2.64f);
+			GameObject.Find("pencil_green_distractor").transform.position = new Vector3(5.575f,2.815f,1.97f);
+			GameObject.Find("openTopMachine_distractor").transform.position = new Vector3(4.919f,2.907f,1.906f);
+			GameObject.Find("cookie_manikin_blue").transform.position = new Vector3(6.93f,2.666f,0.91f);
+			GameObject.Find("bookBlue").transform.position = new Vector3(4.613f,2.687f,0.609f);
 			break;
+		// Vision and memory - Neglect
+		case 5:
+			Debug.Log("Experiment: Neglect");
+			reset_agent = false;
+
+			GameObject.Find("carCraneGreen").transform.position = new Vector3(7.818f,3.067f,1.6f);
+			GameObject.Find("carCraneGreen").transform.rotation = Quaternion.Euler(270.0f,360.0f,-58.0f);
+			GameObject.Find("carCraneGreen_neglect").transform.position = new Vector3(6.3f,3.056f,2.18f);
+			GameObject.Find("carCraneGreen_neglect").transform.rotation = Quaternion.Euler(270.0f,360.0f,-98.0f);
+			GameObject.Find("carCraneYellow").transform.position = new Vector3(13.185f,3.066f,2.484f);
+			GameObject.Find("racecar_green").transform.position = new Vector3(10.311f,2.829f,0.557f);
+			break;
+		// Test for new sync mode
+		case 999:
+			
+			break;
+		// Default option
 		default:
 			agentScripts[0].DefaultAgentPosition = new Vector3(0f,0f,10f);
 			break;
 		}		
 		
-		Reset();
+		Reset(reset_agent);
     }
 	
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -194,6 +194,7 @@ def load_object_attributes(annarInterface):
         ObjCenX[i] = CoordsTMP[0]
         ObjPtY[i, :] = np.arange(CoordsTMP[2] - 0.3, CoordsTMP[2] + 0.35, 0.1) # Using Coords3D
         ObjCenY[i] = CoordsTMP[2]
+        #print("DEBUG: Object", i, "is at", CoordsTMP)
 
     return ObjPtX, ObjPtY, ObjCenX, ObjCenY
 

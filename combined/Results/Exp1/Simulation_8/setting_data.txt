@@ -1,5 +1,0 @@
-Encoding: 0, yellow crane
-1st position: [8.7, 5.5, 212.0, -15.0]
-1st localization: 136 steps
-2nd position: [8.419976603972176, 5.4874307026471545, 212.40000000000003, -15.0]
-2nd localization: 132 steps

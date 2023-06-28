@@ -1,0 +1,5 @@
+Encoding: 0, yellow crane
+1st position: [8.0, 4.9, 210.0, -15.0]
+1st localization: 131 steps
+2nd position: [7.984270756676162, 4.959409853806676, 208.79999999999998, -15.0]
+2nd localization: 601 steps (timeout)

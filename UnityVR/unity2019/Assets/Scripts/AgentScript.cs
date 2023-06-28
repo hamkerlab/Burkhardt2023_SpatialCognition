@@ -29,6 +29,7 @@ using SimpleNetwork;
 
 using UnityEngine;
 using System.Collections;
+using UnityEngine.AI;
 
 
 public partial class AgentScript : MonoBehaviour
@@ -315,12 +316,12 @@ public partial class AgentScript : MonoBehaviour
     /// </summary>
     GameObject debugLine = null;
 
-
     /// <summary>
     /// Each walk animation has a specific speed, which looks good for a specific MovementSpeed.
     /// </summary>
-    protected float GoodWalkAnimationSpeed = 1.25f;
-	//protected float GoodWalkAnimationSpeed = 0.035f; //MB: Slower animation speed for SyncMode
+    protected float GoodWalkAnimationSpeed = 1.5f;
+    protected float GoodWalkAnimationSpeedVideo = 0.0013f;
+
 
     // Balance information for velocity and acceleration computation
     Vector3 lastFrameEyeRotation;
@@ -342,10 +343,13 @@ public partial class AgentScript : MonoBehaviour
     public float EccL = 0, EccR = 0;
     public Vector3 curDirL, curDirR, tarDirL, tarDirR; // Current direction and target direction of left and right camera
 	public Vector3 nTargL, nTargR, fixL, fixR; //normalized Vectors of Target left and rigth
+    public bool flag = false; // flag for the saccFlag message. If true, it changes the saccade to linear
     
-	//MB: Flag for the saccFlag message. If true, it changes the saccade to linear
-	public bool flag = false;
-	
+    // New navigation stuff
+    public NavMeshAgent agent; // navigating agent for Unity built in navogation
+    public bool allowClickNavigation = true; // right clicking in game tab lets you navigate the agent
+    public bool makeVideo = true;
+	public bool syncContinue; // for video creation, is sent by the python client once it is finished with the previous image
 	
 	#endregion Fields
 
@@ -375,16 +379,8 @@ public partial class AgentScript : MonoBehaviour
     /// Flag for controlling walking animation. True if we walk, hence if a walking animation has to be played.
     /// </summary>
     protected bool walking = false;
-
-
-
     public CSVReader csvReaderAnim;
-
-
-
     protected List<string> ArmAnimationList = new List<string>();
-
-
     protected bool IsArmAnimationExecuted
     {
         get;
@@ -498,6 +494,7 @@ public partial class AgentScript : MonoBehaviour
 
         // Config 
         this.SyncMode = config.SyncMode;
+        this.makeVideo = config.MakeVideo;
         this.SimulationTimePerFrame = config.SimulationTimePerFrame;
         this.ImageResolutionWidth = config.ImageResolutionWidth;
 		this.ImageResolutionHeight = config.ImageResolutionHeight;
@@ -506,15 +503,6 @@ public partial class AgentScript : MonoBehaviour
         this.cameraDisplayWidth = config.CameraDisplayWidth;
 		this.FovVertical = config.FovVertical;
 		this.FovHorizontal = config.FovHorizontal;
-		
-
-		
-        // Calculate new imagesizes with FOV
-        // ImageResolutionWidth = cameraDisplayRes;
-        // ImageResolutionHeight = cameraDisplayRes * Mathf.Tan( Mathf.Deg2Rad( FovHorizontal / 2 ) ) / Mathf.Tan( Mathf.Deg2Rad( FovVertical / 2 ) );
-        //ImageResolutionHeight = Mathf.RoundToInt( ImageResolutionWidth * Mathf.Tan( Mathf.Deg2Rad * FovVertical / 2 ) / Mathf.Tan( Mathf.Deg2Rad * FovHorizontal / 2 ) );
-        //this.ImageResolutionHeight = config.ImageResolutionHeight;
-        
 		
         cameraDisplayHeight = Mathf.RoundToInt(cameraDisplayWidth * ImageResolutionHeight / ImageResolutionWidth);
 		Debug.Log("CameraHeight = " + cameraDisplayHeight);
@@ -558,8 +546,6 @@ public partial class AgentScript : MonoBehaviour
 
     }
 
-
-
     /// <summary>
     /// Resets the agent
     /// </summary>
@@ -569,6 +555,9 @@ public partial class AgentScript : MonoBehaviour
         this.CurrentMovementSpeed = 0.0F;
         IsArmAnimationExecuted = false;
 
+        // Stop the agent's NavMesh movement
+        agent.isStopped = true;
+        agent.ResetPath(); 
 
         if (this.IsCurrentMovementFinished == false)
         {
@@ -588,8 +577,6 @@ public partial class AgentScript : MonoBehaviour
         // Reset the eyes
         EyesDirectionReset();
     }
-
-
 
     /// <summary>
     /// Function for the animation system
@@ -1081,11 +1068,6 @@ public partial class AgentScript : MonoBehaviour
         }
     }
 
-    void initAgent()
-    {
-
-
-    }
 
     /// <summary>
     /// Main routine to process incoming message.
@@ -1233,6 +1215,12 @@ public partial class AgentScript : MonoBehaviour
         if (NextMsg.msgSaccFlag != null)
         {
             ProcessSaccFlag(NextMsg.msgSaccFlag);
+        }
+
+        // videoSync
+        if (NextMsg.msgVideoSync != null)
+        {
+            ProcessVideoSync(NextMsg.msgVideoSync);
         }
 
         // MsgAnnarNetwork
@@ -1386,7 +1374,6 @@ public partial class AgentScript : MonoBehaviour
         }
     }
 
-
     /// <summary>
     /// A simple function to execute automatically executed animations, like walk, run and idle animation. Animations belonging to certains agent messages, like grasping, 
     /// should not be executed here.
@@ -1395,8 +1382,12 @@ public partial class AgentScript : MonoBehaviour
     {
 
         if (GetComponent<Animation>()["walk"] != null)
-            GetComponent<Animation>()["walk"].speed = GoodWalkAnimationSpeed;
-
+        {
+            if (makeVideo) 
+                GetComponent<Animation>()["walk"].speed = GoodWalkAnimationSpeedVideo;
+            else GetComponent<Animation>()["walk"].speed = GoodWalkAnimationSpeed;
+        }
+        
         if (CurrentMovementSpeed > 0.01)
         {
 
@@ -1523,10 +1514,11 @@ public partial class AgentScript : MonoBehaviour
 			vR = vpkR*(1-Mathf.Exp((EccR-RR)/m0));
 			
 			// new position = previous Posistion + (Direction * Velocity * Timestep)
-			EyeLf.rotation = Quaternion.Euler(fixL + nTargL * EccL);
-			EyeRt.rotation = Quaternion.Euler(fixR + nTargR * EccR);
-			
-			
+			if ((EccL > 0) && (EccR > 0))
+            {
+                EyeLf.rotation = Quaternion.Euler(fixL + nTargL * EccL);
+                EyeRt.rotation = Quaternion.Euler(fixR + nTargR * EccR);
+            }
 
             /*using(StreamWriter saccadeWriter = File.AppendText("ScenarioData/Vout"))	
             {	
@@ -1565,7 +1557,27 @@ public partial class AgentScript : MonoBehaviour
     /// </summary>	
     protected virtual void Update()
     {
+        //mibur: Click the right mouse button in the game tab (main camera) to move to this position
+        //       Maybe move this somewhere else?
+        if (allowClickNavigation)
+        {
+            // Get clicked position and move to it
+            if (Input.GetMouseButtonDown(1))
+            {
+                Ray movePosition = Camera.main.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(movePosition, out var hitInfo))
+                    agent.SetDestination(hitInfo.point);
+            }
 
+            // Play animation if we are walking, otherwise don't
+            if (agent.pathPending || agent.remainingDistance > agent.stoppingDistance || agent.hasPath)
+            {
+                this.CurrentMovementSpeed = 1.0f;
+                
+            }
+            else this.CurrentMovementSpeed = 0.0f;  
+        }
+        
         //If a saccade has been sent from the client: MoveEyes() -> startSaccade() -> saccadeActive = true -> Update() eyeMovement()
 		if (saccadeActive) // active saccade
         {
@@ -1727,8 +1739,8 @@ public partial class AgentScript : MonoBehaviour
                 {
                     MySimpleNet.Send(new MsgObjectPosition()
                     {
-                        greenCraneX   = GameObject.Find("SC_car_crane_creen").transform.position.x,
-						greenCraneY   = GameObject.Find("SC_car_crane_creen").transform.position.z,
+                        greenCraneX   = GameObject.Find("carCraneGreen").transform.position.x,
+						greenCraneY   = GameObject.Find("carCraneGreen").transform.position.z,
 						yellowCraneX  = GameObject.Find("carCraneYellow").transform.position.x,
 						yellowCraneY  = GameObject.Find("carCraneYellow").transform.position.z,
 						greenRacecarX = GameObject.Find("racecar_green").transform.position.x,
@@ -2046,6 +2058,15 @@ public partial class AgentScript : MonoBehaviour
     {
 		if (msg.i == 1)
 			flag = true;
+    }
+
+    /// <summary>
+    /// videoSync
+    /// </summary>
+    protected virtual void ProcessVideoSync(MsgVideoSync msg)
+    {
+		if (msg.i == 1)
+            syncContinue = true;
     }
 
     /// <summary>

@@ -119,6 +119,9 @@ namespace SimpleNetwork
 		
 		[ProtoMember(30)]
         public MsgSaccFlag msgSaccFlag; 
+		
+		[ProtoMember(31)]
+        public MsgVideoSync msgVideoSync; 
         
     }
 }

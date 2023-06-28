@@ -116,6 +116,11 @@ message MsgSaccFlag
    required bool flag = 1;
 }
 
+message MsgVideoSync
+{
+   required bool flag = 1;
+}
+
 message MsgTrialReset 
 {
    optional int32 Type = 1;
@@ -261,4 +266,5 @@ message MsgObject
 	optional MsgAgentCancelMovement msgAgentCancelMovement = 28;
 	optional MsgVersionCheck msgVersionCheck = 29;
     optional MsgSaccFlag msgSaccFlag = 30;
+	optional MsgSaccFlag msgVideoSync = 31;
 }

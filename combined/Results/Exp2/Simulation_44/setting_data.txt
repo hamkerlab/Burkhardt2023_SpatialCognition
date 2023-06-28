@@ -1,5 +1,0 @@
-Encoding: 2, green racecar
-1st position: [8.4, 4.7, 215.0, -15.0]
-1st localization: 197 steps
-2nd position: [8.250078912320179, 4.749995400242699, 216.0, -15.0]
-2nd localization: 162 steps

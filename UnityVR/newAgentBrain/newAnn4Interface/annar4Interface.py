@@ -761,6 +761,16 @@ class Annar4Interface(object):
         print("Switch to linear saccade")
         return self.sender.saccFlag(flag)
 
+    def videoSync(self, flag):
+        """
+
+        Send a flag for the agent to only walk small steps and wait afterwards
+        It needs to be sent every time the Python side is ready do receive another image during video creation
+        Takes no arguments, sends True
+
+        """
+        return self.sender.videoSync(flag)
+
     
     # send the agent to walk a certain distance in a certain direction (degrees)
     def sendAgentMovement(self, degree, distance):

@@ -17,23 +17,19 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using SimpleNetwork;
+using UnityEngine.AI;
 
 public class SpatialCognitionAgentScript : AgentScript
-{
-    /// <summary>
-    /// Go on with movement
-    /// </summary>
-    bool goOn = true;
-
-    /// <summary>
-    /// Agent walks the path with smoother turn transitions
-    /// </summary>
-    bool smoothPath = true;
-
+{	 
+    bool goOn = true; // Go on with movement
+    bool smoothPath = true; // Smooth A* path
     bool agentIsPathwalking = false;
-
     int gridResX, gridResZ;
 
+    Vector3 start;
+    Vector3 target;
+    Vector3 lastStopPosition;
+    
     Vector3[] pathPoints;
 
     /// <summary>
@@ -52,23 +48,8 @@ public class SpatialCognitionAgentScript : AgentScript
             MySimpleNet.Send(new SimpleNetwork.MsgActionExecutionStatus() { actionID = this.MovementIDExecuting, status = SimpleNetwork.MsgActionExecutionStatus.InExecution });
         }
 
-        // Start and target points of the agents movement
-        Vector3 start = felice.transform.position;
-        Vector3 target = new Vector3(msg.posX, msg.posY, msg.posZ);
-
-        List<int> path = scbs.computePath(start, target);
-        if (path != null)
-        {
-            StartCoroutine(walkPath(path, msg));
-        }
-        else // No path available
-        {
-            if (MySimpleNet != null)
-            {
-                Debug.Log("No path available ...");
-                MySimpleNet.Send(new MsgActionExecutionStatus() { actionID = this.MovementIDExecuting, status = MsgActionExecutionStatus.Aborted });
-            }
-        }
+        //mibur: new pathwalking coroutine with navmesh AI pathwalking
+		StartCoroutine(walkingRoutine(msg));
     }
 
     private Vector3 getBezierPoint(int r, int i, float t)
@@ -91,6 +72,120 @@ public class SpatialCognitionAgentScript : AgentScript
         }
         return length;
     }
+	
+	/// mibur: NEW coroutine that lets the agent walk along the given path using the Unity navmesh AI pathwalking
+    IEnumerator walkingRoutine(MsgAgentMoveTo msg)
+    {
+        GameObject felice = GameObject.Find("felice_grasp");
+        SpatialCognitionBehaviourScript scbs = GameObject.Find("MasterObject").GetComponent<SpatialCognitionBehaviourScript>();
+
+        start = felice.transform.position;
+        target = new Vector3(msg.posX, msg.posY, msg.posZ);
+        lastStopPosition = start;
+
+        float stepSize = 0.07f;  // size of each step when running in sync mode
+
+        this.CurrentMovementSpeed = 1f;
+        agentIsPathwalking = true;
+        agent.SetDestination(target);
+
+        // Send "walk started" network message
+        if (MySimpleNet != null)
+        {
+            MySimpleNet.Send(new MsgActionExecutionStatus() { actionID = this.MovementIDExecuting, status = MsgActionExecutionStatus.WalkingRotating });
+        }
+
+        // get the path
+        NavMeshPath path = new NavMeshPath();
+        if (!agent.CalculatePath(target, path))
+        {
+            Debug.LogError("Could not calculate path");
+            yield break;
+        }
+
+        int currentCorner = 0;
+
+        // main movement loop
+        while (currentCorner < path.corners.Length)
+        {
+            Vector3 nextTarget = path.corners[currentCorner];
+
+            while (currentCorner < path.corners.Length)
+            {
+                nextTarget = path.corners[currentCorner];
+
+                while ((agent.transform.position - nextTarget).sqrMagnitude > stepSize * stepSize)
+                {
+                    if (makeVideo)
+                    {
+                        // Calculate the direction and the next step
+                        Vector3 direction = (nextTarget - agent.transform.position).normalized;
+                        Vector3 nextStep = agent.transform.position + direction * stepSize;
+
+                        // Check if the next step is closer to the target
+                        if ((nextStep - nextTarget).sqrMagnitude > (agent.transform.position - nextTarget).sqrMagnitude)
+                        {
+                            // If it's not, move the agent directly to the target
+                            nextStep = nextTarget;
+                        }
+
+                        // Calculate the angle between the agent's current forward direction and the direction to the next step
+                        float angle = Vector3.Angle(agent.transform.forward, direction);
+
+                        // Reduce the step size if the agent has to turn a large amount
+                        if (angle > 15f) // adjust this value as needed
+                        {
+                            nextStep = agent.transform.position + direction * stepSize * 0.8f; // adjust this value as needed
+                        }
+
+                        // Stop the agent
+                        agent.isStopped = true;
+
+                         // Update agent's rotation to face towards the next step
+                        Quaternion toRotation = Quaternion.LookRotation(direction, Vector3.up);
+                        agent.transform.rotation = Quaternion.Slerp(agent.transform.rotation, toRotation, Time.deltaTime * 10f);
+
+                        // Wait for a message from SimpleNet to continue
+                        while (!syncContinue)
+                        {
+                            yield return null;
+                        }
+
+                        // Resume the agent
+                        agent.isStopped = false;
+                        syncContinue = false;  // Reset syncContinue
+
+                        // Check if the next step is on the NavMesh
+                        NavMeshHit hit;
+                        if (NavMesh.SamplePosition(nextStep, out hit, stepSize, NavMesh.AllAreas))
+                        {
+                            // Move the agent to the next step
+                            agent.transform.position = nextStep;
+
+                            // Update the last stop position
+                            lastStopPosition = agent.transform.position;
+                        }
+                    }
+
+                    // Suspend execution until the next frame
+                    yield return null;
+                }
+
+                currentCorner++;
+            }
+        }
+
+        // Send "walk completed" network message
+        if (MySimpleNet != null)
+        {
+            MySimpleNet.Send(new MsgActionExecutionStatus() { actionID = this.MovementIDExecuting, status = MsgActionExecutionStatus.Finished });
+        }
+
+        this.CurrentMovementSpeed = 0.0f;
+        agentIsPathwalking = false;
+        Debug.Log("Walk finished");
+    }
+
 
     /// <summary>
     /// Coroutine that lets the agent walk along the given path.
@@ -129,7 +224,7 @@ public class SpatialCognitionAgentScript : AgentScript
             }
 
 			//float startingAngle = Vector3.Angle(getBezierPoint(path.Count - 1, 0, 0.0001f) - felice.transform.position, new Vector3(0f, 0f, 1f));
-			//mibur: To compute the starting angle we only need the vector between felice and the first path point. getBezierPoint seems to calculate some kind of average direction of the path which makes the turn look bad
+			//To compute the starting angle we only need the vector between felice and the first path point. getBezierPoint seems to calculate some kind of average direction of the path which makes the turn look bad
 			float startingAngle = Vector3.Angle(pathPoints[1] - felice.transform.position, new Vector3(0f, 0f, 1f));
 		
             if (Vector3.Dot(getBezierPoint(path.Count - 1, 0, 0.001f) - felice.transform.position, new Vector3(1f, 0f, 0f)) < 0)

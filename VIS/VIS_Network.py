@@ -137,6 +137,7 @@ FEFv_Neuron = Neuron(
     """,
     equations="""
         ALIP = vLIP1*sum(LIP1) + vLIP2*sum(LIP2)
+        AFEAT = vExc*sum(exc)
         E = vExc*sum(exc) + ALIP
         q = (E * (1 + sigmaFEF) / (E + sigmaFEF))
         tau * dr /dt = -r + pos(q * (1 + c) - c)
@@ -210,7 +211,7 @@ FEFfix = Population(name='FEFfix', geometry=1, neuron=Inp_Neuron)
 ##########################################
 # juschu: connection of Amir's version
 ## Connection Input Layer -> V1
-# Input layer contains the pre-processed image and is used to applying 60.0 mS delay.
+# Input layer contains the pre-processed image and is used to applying delay.
 Inp_V1 = Projection(pre=Input_Pop, post=V1, target='exc')
 Inp_V1.connect_one_to_one(weights=params['Input_V1C_Weight'], delays=params['Input_V1C_Delay'])
 

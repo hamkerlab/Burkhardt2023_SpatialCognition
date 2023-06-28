@@ -23,23 +23,61 @@ import matplotlib.font_manager as fm
 sys.path.append('../VIS/')
 from VIS_ParamVR import ModelParam
 
-def label_VFs(ResultDir, target):
-  posImage = Image.open(ResultDir + "VisualField_pos.png")
-  draw = ImageDraw.Draw(posImage)
-  font = ImageFont.truetype(fm.findfont(fm.FontProperties(family='DejaVu Sans')), 20)
-  draw.text((10,10), "Encoding: " + str(target), font=font, fill=(0,0,0))
-  posImage.save(ResultDir + "VisualField_pos.png")
+def load_ExpData():
+  obj_list = []
+  SimObjects = "Results/data/objects.txt"
+  with open(SimObjects, 'r') as file:
+      for line in file:
+          obj_list.append(int(line.rstrip('\n')))
+  
+  SimPositions = "Results/data/positions.txt"
+  with open(SimPositions, 'r') as file:
+      pos_list = [[float(num) for num in line.split(',')] for line in file]
 
-  try:
-    posImage = Image.open(ResultDir + "VisualField_att.png")
-    draw = ImageDraw.Draw(posImage)
+  return obj_list, pos_list
+
+def label_VFs(ResultDir, target, Experiment, phase):
+  if phase == "encoding":
+    posImage = Image.open(ResultDir + "VisualField_pos.png")
+    posImage = posImage.convert("RGBA")
+    overlay = Image.new('RGBA', posImage.size, (255, 255, 255, 0))
+
+    draw = ImageDraw.Draw(overlay)
     font = ImageFont.truetype(fm.findfont(fm.FontProperties(family='DejaVu Sans')), 20)
-    draw.text((10,10), "Recall: " + str(target), font=font, fill=(0,0,0))
-    posImage.save(ResultDir + "VisualField_att.png")
-  except:
-    pass
+    text = "1. Encode " + str(target)
 
-def create_video(ResultDir, exp, target, sn, saccade_step):
+    margin = 4
+    x = 10
+    y = 10
+    opacity = 165
+    
+    bbox = draw.textbbox((x,y), text, font=font)
+    draw.rectangle([(bbox[0] - margin, bbox[1] - margin), (bbox[2] + margin, bbox[3] + margin)], fill=(255,255,255,opacity))
+    draw.text((x, y), text, font=font, fill=(0,0,0))
+    combined = Image.alpha_composite(posImage, overlay)
+    combined.save(ResultDir + "VisualField_pos.png")
+
+  if phase == "recall":
+    posImage = Image.open(ResultDir + "VisualField_att.png")
+    posImage = posImage.convert("RGBA")
+    overlay = Image.new('RGBA', posImage.size, (255, 255, 255, 0))
+
+    draw = ImageDraw.Draw(overlay)
+    font = ImageFont.truetype(fm.findfont(fm.FontProperties(family='DejaVu Sans')), 20)
+
+    margin = 4
+    x = 10
+    y = 10
+    opacity = 165
+    
+    text = "2. Find " + str(target)
+    bbox = draw.textbbox((x,y), text, font=font)
+    draw.rectangle([(bbox[0] - margin, bbox[1] - margin), (bbox[2] + margin, bbox[3] + margin)], fill=(255,255,255,opacity))
+    draw.text((x, y), text, font=font, fill=(0,0,0))
+    combined = Image.alpha_composite(posImage, overlay)
+    combined.save(ResultDir + "VisualField_att.png")
+
+def make_video(ResultDir, exp, target, sn, saccade_step):
   print("Creating video")
   # load rates
   if sn == 0:
@@ -55,7 +93,7 @@ def create_video(ResultDir, exp, target, sn, saccade_step):
       title = "Experiment " +str(exp) + ": Recall " + target
       fname = "recall"
       dictRates = loadmat(fn)
-      saccade_step = saccade_step
+      saccade_step = saccade_step - 1
 
   # take max over lip (otherwise average)
   max_lip = True
@@ -167,57 +205,6 @@ def create_video(ResultDir, exp, target, sn, saccade_step):
   anim.save(ResultDir + fname + '.mp4', writer=animation.FFMpegWriter(fps=5))
   plt.close()
 
-# Extracts the simulation steps from all setting_data files and calculates the average
-def calculate_average_steps(timeout_runs):
-  set_timeouts = set(timeout_runs)
-  print("Simulations excluded from evaluation:", set_timeouts)
-  
-  for Experiment in range(1,4):
-    folder = './Results/Exp' + str(Experiment) +'/'
-    directories = natsort.natsorted(os.listdir(folder))
-    
-    first_loc_steps_average = 0
-    second_loc_steps_average = 0
-    total_runs = 0
-
-    for simulation in directories:
-      if simulation not in set_timeouts:
-        total_runs += 1
-        lines = []                             
-        with open (str(folder + simulation + '/setting_data.txt'), 'rt') as setting_data: 
-            for line in setting_data:                
-                lines.append(line)           
-
-        first_loc_steps_average += int(lines[2][18:21])
-        second_loc_steps_average += int(lines[4][18:21])
-
-    first_loc_steps_average /= total_runs
-    second_loc_steps_average /= total_runs
-
-    first_loc_steps_average = round(first_loc_steps_average)
-    second_loc_steps_average = round(second_loc_steps_average)
-
-    print("Exp", Experiment, ":", first_loc_steps_average, second_loc_steps_average)
-  
-  return 
-
-def check_timeout():
-  timeouts = []
-  
-  for Experiment in range(1,4):
-    folder = './Results/Exp' + str(Experiment) +'/'
-    directories = natsort.natsorted(os.listdir(folder))
-
-    for simulation in directories:
-      lines = []                             
-      with open (str(folder + simulation + '/setting_data.txt'), 'rt') as setting_data: 
-          for line in setting_data:                
-              lines.append(line)           
-
-      if int(lines[4][18:21]) > 600:
-            timeouts.append(simulation)
-  return timeouts
-
 # Gets all positions from all available results folders
 def read_positions(folder):
     directories = natsort.natsorted(os.listdir(folder))
@@ -257,8 +244,4 @@ def read_objects(folder):
         objects.append(int(lines[0][10:11]))
     
     return objects
-
-
-# Used for the evaluation in Table 1
-#timeout_runs = check_timeout()
-#calculate_average_steps(timeout_runs)
+    

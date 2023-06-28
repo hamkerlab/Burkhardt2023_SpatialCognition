@@ -86,7 +86,7 @@ SubShader{
 					// are transformed to fragment shader
 				o.uv = TRANSFORM_TEX(v.texcoord, _MainTex);
 				o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
-				o.n = mul((float3x3)unity_ObjectToWorld, SCALED_NORMAL);
+				o.n = normalize(mul((float3x3)unity_ObjectToWorld, v.normal));
 
 				TRANSFER_VERTEX_TO_FRAGMENT(o);
 
@@ -181,7 +181,7 @@ SubShader{
 
 				o.uv = TRANSFORM_TEX(v.texcoord, _MainTex);
 				o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
-				o.n = mul((float3x3)unity_ObjectToWorld, SCALED_NORMAL);
+				o.n = normalize(mul((float3x3)unity_ObjectToWorld, v.normal));
 
 				TRANSFER_VERTEX_TO_FRAGMENT(o);
 

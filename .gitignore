@@ -5,10 +5,16 @@
 *.mp4
 *.data
 
-# folders
+# Python folders
 */annarchy*/
 */Results*/
 */connections*/
 */targets/
 *.vscode/
 *.spyproject/
+
+# Unity folders
+*/unity2019/Library*
+*/unity2019/Logs*
+*/unity2019/Packages*
+*/unity2019/Temp*

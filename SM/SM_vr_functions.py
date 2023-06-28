@@ -79,12 +79,9 @@ def wait_for_finished_walk(annarInterface, id, show_coords=False):
     while True:        
         time.sleep(0.2)
         
-        if state == 2:
-            id += 1
-            idflag = True
-            print('Turn finished, new ID for walk = ', id, state)
-
-        if state == 1 and idflag == True:
+        # We arrived at the target position
+        if state == 1:
+            time.sleep(1)
             break
         
         if show_coords:

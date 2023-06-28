@@ -67,6 +67,21 @@ class AnnarProtoSend(object):
         self.sentQueue.put(unit)
         self.mutex = False
 
+    def videoSync(self, flag):
+        """
+
+        Send a flag to change the saccade mode from Van Opstal to linear
+        Takes no arguments, sends 1 (True)
+        
+        """
+        unit = MsgObject()
+
+        unit.msgVideoSync.flag = flag
+
+        self.mutex = True
+        self.sentQueue.put(unit)
+        self.mutex = False
+
 
     def sendAgentMovement(self, degree, distance):
         """

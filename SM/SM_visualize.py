@@ -8,6 +8,8 @@
 :license: GPLv3, see LICENSE for details.
 """
 
+import os
+import csv
 import numpy as np
 from numpy import round
 from matplotlib import pylab as plt
@@ -145,175 +147,122 @@ def create_recalled_objects(obj2recall):
 
     return mat
 
-def create_figure_3_withVR(HD_rate, BVC_rate, PR_rate, H_rate, OVC_rate, ObjEncoded, plt_ttl_flag, load_flag, imag_flag, vr_room, agent_view, folder, Obj2Recall=-1):
-    """
-    New visualization of the SM-model in VR
-    """
+def create_network_figure(SM_rates, VISLIP_rates, title, phase, vr_room, agent_view, folder, n=1):
+    # figure size
+    width = 6800
+    height = 5000
     
-    #figure setup
-    fig = plt.figure(figsize=(24,16))
-
-    title_size = 50     # overall title size
-    plt_ttl_size = 16   # subplot title size
-    plt_lbl_size = 12   # subplot label size
-    
-    gs0 = gridspec.GridSpec(1, 2)
-    gs0.update(top=.90, hspace=.4, wspace=.35, left=0.05, right=0.95, bottom=0.025)
-    gs00 = gridspec.GridSpecFromSubplotSpec(2, 2, subplot_spec=gs0[0])
-    gs01 = gridspec.GridSpecFromSubplotSpec(3, 2, subplot_spec=gs0[1])
-    
-    
-    # compute indices
-    nb_neurons_HD = HD_rate.shape[0]
-    nb_neurons_H = H_rate.shape[0]
+    # SM indices
+    nb_neurons_HD = SM_rates['HD'].shape[0]
+    nb_neurons_H = SM_rates['PC'].shape[0]
     (HDX,HDY) = compute_coords_HD(nb_neurons_HD)
     (BVCX, BVCY)  = compute_coords_BVC()
     (HX, HY) = compute_coords_HPC(nb_neurons_H)
-    
-    
-    #VR images
-    ax1 = fig.add_subplot(gs00[0, :])
-    ax1.set_title('Agent View', fontsize = plt_ttl_size)
-    ax1.imshow(agent_view)
-    ax1.set_xticks([])
-    ax1.set_yticks([])
-    
-    
-    ax2 = fig.add_subplot(gs00[1, :])
-    ax2.set_title('VR Room', fontsize = plt_ttl_size)
-    ax2.imshow(vr_room)
-    ax2.set_xticks([])
-    ax2.set_yticks([])
-    
-    #############
-    #firing rates
-    #############
-    
-    #HPC activity
-    ax3 = fig.add_subplot(gs01[0, 0])
-    ax3.set_xticks([])
-    ax3.set_yticks([])
-    
-    ax3.set_title("PC rates\n", fontsize = plt_ttl_size)
-    ax3.text( 11.0, 22.1, "North", verticalalignment="bottom", horizontalalignment="center", fontsize = plt_lbl_size)
-    ax3.text( 22.1, 11.0, "East", verticalalignment="center", horizontalalignment="left", rotation=270.0, fontsize = plt_lbl_size)
-    ax3.text( 11.0, -0.1, "South", verticalalignment="top", horizontalalignment="center", fontsize = plt_lbl_size)
-    ax3.text( -0.1, 11.0, "West", verticalalignment="center", horizontalalignment="right", rotation=90.0, fontsize = plt_lbl_size)
-   
-    data = np.zeros( (nb_neurons_H, 2) )
-    data = np.reshape(H_rate, (HX.shape[0], HY.shape[1]))
-    
-    ax3.contourf(HX, HY, data, 20)
 
-    #BVC activity
-    ax4 = fig.add_subplot(gs01[0, 1])
-    ax4.set_xticks([])
-    ax4.set_yticks([])
-    
-    ax4.set_title("BVC rates\n", fontsize = plt_ttl_size)
-    ax4.text(  0.0, 16.1, "North", verticalalignment="bottom", horizontalalignment="center", fontsize = plt_lbl_size)
-    ax4.text( 16.1,  0.0, "East", verticalalignment="center", horizontalalignment="left", rotation=270.0, fontsize = plt_lbl_size)
-    ax4.text(  0.0,-16.1, "South", verticalalignment="top", horizontalalignment="center", fontsize = plt_lbl_size)
-    ax4.text(-16.1,  0.0, "West", verticalalignment="center", horizontalalignment="right", rotation=90.0, fontsize = plt_lbl_size)
-    
-    data = np.reshape(BVC_rate, (BVCY.shape[0], BVCX.shape[1]))
-    ax4.contourf(BVCX, BVCY, data, 20)
-    
+    # get grid for subplot
+    wd = os.path.dirname(os.path.realpath(__file__))
+    grid = {}    
+    with open(f'{wd}/video/grid.csv') as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=';')
+        for row in csv_reader:
+            if row[0] != 'name':
+                grid[row[0]] = row[1:]
+                
+    # background
+    fn_bg_enc = f'{wd}/video/{phase}_template.png'
 
-    #HD activity
-    ax5 = fig.add_subplot(gs01[1, 0])
-    ax5.set_xticks([])
-    ax5.set_yticks([])
+    ## Plotting
+    fig = plt.figure(figsize=(width/100, height/100))
+    fig.subplots_adjust(left=0.008, right=1, bottom=0, top=1, wspace=0, hspace=0)
     
-    data = np.zeros( (nb_neurons_HD, 2) )
-    data[:,0] = HD_rate
-    data[:,1] = HD_rate
+    gs = gridspec.GridSpec(height, width)
     
-    ax5.set_title("HD rates\n", fontsize = plt_ttl_size)
-    ax5.text( 0.0, 1.55, "North", verticalalignment="bottom", horizontalalignment="center", fontsize = plt_lbl_size)
-    ax5.text( 1.55, 0.0, "East", verticalalignment="center", horizontalalignment="left", rotation=270.0, fontsize = plt_lbl_size)
-    ax5.text(  0, -1.55, "South", verticalalignment="top", horizontalalignment="center", fontsize = plt_lbl_size)
-    ax5.text(-1.55, 0.0, "West", verticalalignment="center", horizontalalignment="right", rotation=90.0, fontsize = plt_lbl_size)
+    # VIS and LIP rates
+    for name, r in VISLIP_rates.items():
+        try:
+            # print(name, grid[name])
+            gs_slice = np.array(grid[name], dtype=int)
+            fig.add_subplot(gs[gs_slice[1]:gs_slice[1]+gs_slice[3], gs_slice[0]:gs_slice[0]+gs_slice[2]])
+            
+            if name == 'V1':
+                r = np.average(np.average(r, axis=3), axis=2)
+                plt.imshow(r.T)  
+            elif name == 'V4':
+                r = np.max(r, axis=2)
+                plt.imshow(r.T, vmin=0.0, vmax=0.8)  
+            elif name == 'PFC':
+                r = np.ones((len(r), 1)) * r
+                plt.imshow(r.T, vmin=0.0, vmax=1.0)
+            elif name == 'FEF':
+                plt.imshow(r.T, vmin=0.0, vmax=0.8)  
+            elif name == 'Xh':
+                if phase == "encoding" or phase == "encodingText":
+                    plt.imshow(r.T, vmin=0.0, vmax=0.4)
+                else:
+                    plt.imshow(r.T, vmin=0.0, vmax=1.0)
+
+            plt.axis('off')
+
+        except KeyError:
+            print(name, 'has no grid')
+            
+    # SM rates
+    for name, r in SM_rates.items():
+        try:
+            # print(name, grid[name])
+            gs_slice = np.array(grid[name], dtype=int)
+            fig.add_subplot(gs[gs_slice[1]:gs_slice[1]+gs_slice[3], gs_slice[0]:gs_slice[0]+gs_slice[2]])
+            
+            if name == 'PRo':
+                # Binarize rates for visualization
+                r[r<0.5] = 0.1
+                background_bars = [1, 1, 1]
+                colors = [plt.cm.viridis((x - 0.1) / 0.6) if x > 0.1 else plt.cm.viridis(0) for x in r]
+                plt.barh([2,1,0], background_bars, color='lightgray') # plot background bars
+                plt.barh([2,1,0], r[:3], color=colors)
+                plt.xlim(1, 0)
+            elif name == 'HD':
+                r = np.zeros((nb_neurons_HD, 2))
+                r[:,0] = SM_rates['HD']
+                r[:,1] = SM_rates['HD']
+                plt.contourf(HDX, HDY, r, 20, vmin=0, vmax=1)
+            elif name == 'PC':
+                r = np.reshape(r, (HY.shape[0], HX.shape[1]))
+                plt.contourf(HX, HY, r, 20, vmin=0, vmax=1)
+            else:
+                r = np.reshape(r, (BVCY.shape[0], BVCX.shape[1]))
+                r[r < 0.1] = 0 # suppress small activations in plot
+                plt.contourf(BVCX, BVCY, r, 20, vmin=0, vmax=1)
+
+            plt.axis('off')
+        except KeyError:
+            print(name, 'has no grid')
+            
+    # visual field and top-down view of room
+    gs_slice = np.array(grid['VF'], dtype=int)
+    fig.add_subplot(gs[gs_slice[1]:gs_slice[1]+gs_slice[3], gs_slice[0]:gs_slice[0]+gs_slice[2]])
+    plt.imshow(agent_view)
+    plt.axis('off')
+
+    gs_slice = np.array(grid['room'], dtype=int)
+    fig.add_subplot(gs[gs_slice[1]:gs_slice[1]+gs_slice[3], gs_slice[0]:gs_slice[0]+gs_slice[2]])
+    plt.imshow(vr_room)
+    plt.axis('off')
+            
+    # background
+    fig.add_subplot(gs[:, :])
+    bg = plt.imread(fn_bg_enc)
+    plt.imshow(bg)
+    plt.axis('off')
+
+    title_size = 100
+    title_y_position = 0.99
+    fig.subplots_adjust(top=0.95)
+    plt.suptitle(title, fontsize=title_size, fontweight="bold", y=title_y_position)
     
-    ax5.contourf(HDX, HDY, data, 20)
-    
-    
-    #OVC activity
-    ax6 = fig.add_subplot(gs01[1, 1])
-    ax6.set_xticks([])
-    ax6.set_yticks([])
-    
-    ax6.set_title("OVC rates\n", fontsize = plt_ttl_size)
-    ax6.text(  0.0, 16.1, "North", verticalalignment="bottom", horizontalalignment="center", fontsize = plt_lbl_size)
-    ax6.text( 16.1,  0.0, "East", verticalalignment="center", horizontalalignment="left", rotation=270.0, fontsize = plt_lbl_size)
-    ax6.text(  0.0,-16.1, "South", verticalalignment="top", horizontalalignment="center", fontsize = plt_lbl_size)
-    ax6.text(-16.1,  0.0, "West", verticalalignment="center", horizontalalignment="right", rotation=90.0, fontsize = plt_lbl_size)
-    
-    data = np.reshape(OVC_rate, (BVCY.shape[0], BVCX.shape[1]))
-    data[data < 0.05] = 0
-    ax6.contourf( BVCX, BVCY, data, 20, vmax = max(0.05, data.max())) # Added to suppress display of "almost zero" rates
-    
-    #PR activity
-    ax7 = fig.add_subplot(gs01[2, 0])
-    ax7.set_xticks([])
-    ax7.set_yticks([])
-    
-    ax7.bar(list(range(PR_rate.shape[0])), PR_rate)
-    ax7.set_title("PR rates\n", fontsize = plt_ttl_size)
-    ax7.set_xticks([0, 1, 2, 3])
-    ax7.set_xticklabels(['N', 'W', 'S', 'E'])
-    ax7.set_ylim([0, 1]) 
-    
-    
-    #Encoded objects
-    ax8 = fig.add_subplot(gs01[2, 1])
-    ax8.set_xticks([])
-    ax8.set_yticks([])
-    if imag_flag:
-        ax8.set_title("Object to Recall\n", fontsize = plt_ttl_size)
+    if n > 1:
+        for i in range(n):
+            fig.savefig(f"{folder}/{get_current_step()-1:06}_{i}.jpg", dpi=70)
     else:
-        ax8.set_title("Object Encoded\n", fontsize = plt_ttl_size)
-    enc_obj = create_encoded_objects(ObjEncoded)
-    # need to store in intermediate file, otherwise imshow does some strange stuff visualizing enc_obj directly
-    enc_obj = enc_obj.astype(np.uint8) #colorspace conversion to suppress warning when saving
-    imwrite(ctrl_vars['images']+'targets/tmp.png', enc_obj)  
-    ax8.imshow(imread(ctrl_vars['images']+'targets/tmp.png'))
-    ax8.set_xticks([])
-    ax8.set_yticks([])
-    
-    #Printing the title    
-    if plt_ttl_flag == 1:
-        plt.suptitle('Encoding current position of the agent', fontsize=title_size)
-    elif plt_ttl_flag == 2:
-        plt.suptitle('Imagery engaged: Where is my green crane?', fontsize=title_size)
-    elif plt_ttl_flag == 3:
-        plt.suptitle('Re-establish bottom-up representation based on perception', fontsize=title_size)
-    elif plt_ttl_flag == 4:
-        plt.suptitle('Object encountered, encoding', fontsize=title_size)
-    elif plt_ttl_flag == 5:
-        plt.suptitle('Imagination phase', fontsize=title_size)
-    elif plt_ttl_flag == 6:  
-        plt.suptitle(' ', fontsize=title_size)
-    elif plt_ttl_flag == 7:  
-        plt.suptitle('Walking to a new position', fontsize=title_size)
-    elif plt_ttl_flag == 8:  
-        plt.suptitle('Executing a saccade to the target object', fontsize=title_size)
-    elif plt_ttl_flag == 9:  
-        plt.suptitle('Applying spatial attention on the expected target position', fontsize=title_size)
-    elif plt_ttl_flag == 10:  
-        plt.suptitle('Located target object', fontsize=title_size)
-    elif plt_ttl_flag == 11:  
-        plt.suptitle('Searching for the target object (green crane)', fontsize=title_size)
-    elif plt_ttl_flag == 12:  
-        plt.suptitle('Walking back to the target object', fontsize=title_size)
-    # the step count was already incremented.
-    try:
-        if load_flag:
-            fig.savefig(folder + "/load_figure1_%06i.jpg" %(get_current_step()-1) )
-        else:
-            fig.savefig(folder + "/SM_%06i.jpg" %(get_current_step()-1) )
-        plt.close()
-        
-    except IOError:
-        # Folder 'results' was not existing.
-        pass
+        fig.savefig(f"{folder}/{get_current_step()-1:06}.jpg", dpi=70)
+    plt.close()

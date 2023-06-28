@@ -15,7 +15,7 @@ namespace SimpleNetwork
     {
 
         /// <summary>
-        /// Signals the VR to perform a Reset
+        /// if i == 1 -> linear saccade
         /// </summary>
         [ProtoMember(1)]
         public int i;

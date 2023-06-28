@@ -81,7 +81,7 @@ ModelParam['poolFactor'] = 6
 # type of Kernel for imresize function in Pooling
 ModelParam['imresize_Kernel'] = 'Lanczos3'
 
-# If True, the Neural Network will be reseted after each saccade.
+# If True, the Neural Network will be reset after each saccade.
 ModelParam['Net_Reset'] = False
 
 
@@ -100,7 +100,6 @@ ModelParam['v1RFsizeDeg'] = 0.45
 # This parameter is used to postpone the next Visual Field for some miliseconds.
 ModelParam['FEFmDecayDelay'] = 100
 # The time interval for updating the Visual Field during saccade.
-ModelParam['NewVF_DuringSacc_Time'] = 50
-
+ModelParam['NewVF_DuringSacc_Time'] = 100
 # True means in Debug mode. I use this mode for comparing the model with the Matlab version.
 ModelParam['Debug_Mode'] = False
