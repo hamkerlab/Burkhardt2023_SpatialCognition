@@ -295,7 +295,7 @@ if __name__ == "__main__":
             # Record firing rates
             if record_encoding:
                 monitors = {
-                        'V1': ANN.Monitor(VIS.V1, 'r'),
+                        'V1': ANN.Monitor(VIS.AuxV1, 'r'),
                         'HVA4': ANN.Monitor(VIS.V4L4, 'r'),
                         'HVA23': ANN.Monitor(VIS.V4L23, 'r'),
                         'FEFv': ANN.Monitor(VIS.FEFv, ['r', 'ALIP']),
@@ -499,7 +499,7 @@ if __name__ == "__main__":
             # record firing rates
             if record_recall:
                 monitors = {
-                        'V1': ANN.Monitor(VIS.V1, 'r'),
+                        'V1': ANN.Monitor(VIS.AuxV1, 'r'),
                         'HVA4': ANN.Monitor(VIS.V4L4, 'r'),
                         'HVA23': ANN.Monitor(VIS.V4L23, 'r'),
                         'FEFv': ANN.Monitor(VIS.FEFv, ['r', 'ALIP', 'AFEAT']),

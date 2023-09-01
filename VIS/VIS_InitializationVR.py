@@ -1,13 +1,15 @@
 """
-   This program initializes the proper parameters for Pre-processing. The function initV1() should
-   be imported in main program (expVR.py). The output of this function is a class (called 'this'
-   here and 'objV1' in expVR.py) which contains essential parameters for pre-processing.
+   This program initializes the proper parameters for the LGN and V1 processing. The function initV1() should
+   be imported in the main program (expVR.py). The output of this function is a class (called 'this'
+   here and 'objV1' in expVR.py) which contains essential parameters for LGN/V1 processing.
 
    Functions:
    - initV1()              : The main function
    --------------------------------------------------
+   LGN/V1 processing - part orientation:
    - customgauss()
    - gaborKernel()
+   LGN/V1 processing - part color:
    - initColor()
    - initColorContrast()
    - initGabor()
@@ -51,7 +53,7 @@ def initV1(ModelParam):
         print("Error: Unknown V1 Filterbank", ModelParam['FilterBankV1'])
         exit(1)
 
-    ## Eccentricity independent RF sizes
+    # Note: Eccentricity independent RF sizes
 
     # V1
     this.rfsizeDeg = ModelParam['v1RFsizeDeg']
@@ -94,6 +96,9 @@ def initV1(ModelParam):
 
 
 def customgauss(gsize, sigmax, sigmay, theta, offset, factor, center):
+    '''
+    Calculates a Gaussian 2D kernel
+    '''
 
     ret = np.zeros(gsize.astype(int))
 
@@ -109,6 +114,9 @@ def customgauss(gsize, sigmax, sigmay, theta, offset, factor, center):
 
 
 def gaborKernel(kernelSize, halfSDsq, theta, f, psi, spatialCompression):
+    '''
+    Calculates a Gabor kernel
+    '''
 
     if spatialCompression[0] < 1 or spatialCompression[1] < 1:
         print("Error: Spatial Compressions should be at least 1")
@@ -149,6 +157,10 @@ def gaborKernel(kernelSize, halfSDsq, theta, f, psi, spatialCompression):
 
 
 def initColor(kernelSizeReal, kernelSize, imgDepth, enableDOcell, ModelParam):
+    '''
+    Initialising the color on/off cells in LGN and V1 ,
+    i.e. the red-green and blue-yellow color contrast cells.
+    '''
 
     if enableDOcell == 1:
         wFeat = 6                # Number of features after convolution (~= Number of features LGN!)
@@ -335,6 +347,9 @@ def initColorContrast(this):
 
 
 def initGabor(this, ModelParam):
+    '''
+    Initialising the orientations cells in LGN/V1.
+    '''
 
     wScale = 3
 

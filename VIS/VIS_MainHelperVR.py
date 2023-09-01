@@ -57,7 +57,7 @@ def CheckWithMATLAB(rV1C):
     In debug mode (ModelParam['Debug_Mode'] = True) one can use this function to compare the result
     of preprocessing of Python and Matlab.
 
-    params: rV1C -- numpy array containing rate of V1-Complex neutons (pre-processed image)
+    params: rV1C -- numpy array containing rate of V1-Complex neurons (pre-processed image)
     '''
 
     MATLAB_rV1C = loadmat(ModelParam['DataDir'] + 'rV1CS.mat')['rV1C']

@@ -24,8 +24,8 @@ from VIS_Connections import one_to_dim, con_scale
 
 ## Neuron of V1 population: Applies the power rule to the given baseline input
 # See Eq 4.29
-V1_Neuron = Neuron(
-    name='V1_Neuron',
+AuxV1_Neuron = Neuron(
+    name='AuxV1_Neuron',
     parameters="""
         pV1C = 'pV1C' : population
     """,
@@ -97,32 +97,6 @@ V4L23_Neuron = Neuron(
     extra_values=params
 )
 
-AuxV4L4_Neuron = Neuron(
-    name='AuxV4L4_Neuron',
-    parameters="""
-        vLIP1 = 'vLIP1' : population
-        vLIP2 = 'vLIP2' : population
-    """,
-    equations="""
-        vLIP = vLIP1*sum(LIP1) + vLIP2*sum(LIP2)
-        r = vLIP
-    """,
-    extra_values=params
-)
-
-AuxV4L23_Neuron = Neuron(
-    name='AuxV4L23_Neuron',
-    parameters="""
-        vSSP1 = 'vSSP1' : population
-        vSSP2 = 'vSSP2' : population
-    """,
-    equations="""
-        S_SP = vSSP1*sum(SSP1) + vSSP2*sum(SSP2)
-        r = S_SP
-    """,
-    extra_values=params
-)
-
 ## Neuron of visual Layer in FEF: Receives Input from V4L23
 # See Eq 4.53-4.60
 FEFv_Neuron = Neuron(
@@ -182,7 +156,7 @@ FEFm_Neuron = Neuron(
 )
 
 ## Input Neuron: Has to be set to value. Does not change over time.
-Inp_Neuron = Neuron(name='Input_Neuron',parameters="r = 0.0")
+Inp_Neuron = Neuron(name='Input_Neuron', parameters="r = 0.0")
 
 ## Basic Auxillary Neuron is transmitting an unmodified input
 Aux_Neuron = Neuron(name='Aux_Neuron', equations="""r = sum(exc)""")
@@ -190,14 +164,11 @@ Aux_Neuron = Neuron(name='Aux_Neuron', equations="""r = sum(exc)""")
 ##########################################
 ######### POPULATION DEFINITION  #########
 ##########################################
-#Input_Pop = Population(params['resVisual'], Inp_Neuron, name='Image')
 # juschu: Input Population of Amir's version
-Input_Pop = Population(params['V1_shape'], Inp_Neuron, name='Input')
-V1 = Population(params['V1_shape'], V1_Neuron, name='V1')
+V1 = Population(params['V1_shape'], Inp_Neuron, name='V1')
+AuxV1 = Population(params['V1_shape'], AuxV1_Neuron, name='AuxV1')
 V4L4 = Population(params['V4L4_shape'], V4L4_Neuron, name='V4L4')
 V4L23 = Population(params['V4L23_shape'], V4L23_Neuron, name='V4L23')
-AuxV4L4 = Population(params['V4L4_shape'][:2], AuxV4L4_Neuron, name='AuxV4L4')
-AuxV4L23 = Population(params['V4L23_shape'][:2], AuxV4L23_Neuron, name='AuxV4L23')
 FEFv = Population(params['FEF_shape'], FEFv_Neuron, name='FEFv')
 FEFvm = Population(params['FEFvm_shape'], FEFvm_Neuron, name='FEFvm')
 FEFm = Population(params['FEF_shape'], FEFm_Neuron, name='FEFm')
@@ -209,11 +180,11 @@ FEFfix = Population(name='FEFfix', geometry=1, neuron=Inp_Neuron)
 ##########################################
 ######### CONNECTION DEFINITION  #########
 ##########################################
+## Connection for V1 (V1 -> AuxV1) 
 # juschu: connection of Amir's version
-## Connection Input Layer -> V1
-# Input layer contains the pre-processed image and is used to applying delay.
-Inp_V1 = Projection(pre=Input_Pop, post=V1, target='exc')
-Inp_V1.connect_one_to_one(weights=params['Input_V1C_Weight'], delays=params['Input_V1C_Delay'])
+# V1 contains the beforehand-calculated LGN/V1 responses and the connection is used to applying delay and non-linearity.
+V1_Proj = Projection(pre=V1, post=AuxV1, target='exc')
+V1_Proj.connect_one_to_one(weights=params['Input_V1C_Weight'], delays=params['Input_V1C_Delay'])
 
 ## Connection of V1 -> V4/IT L4
 # load the pretrained weights and transform it into a 4D Bank of Filters
@@ -227,7 +198,7 @@ for Row, Col in rangeX(params['V4L4_shape'][:2]):
     ssList14.append([Row, Col] + Center)
 # create the convolution Projection
 # juschu: use delay and padding of Amir's version
-V1_V4L4 = Convolution(V1, V4L4, target='exc')
+V1_V4L4 = Convolution(AuxV1, V4L4, target='exc')
 V1_V4L4.connect_filters(weights=FilterBank, delays=5.0,# padding='border',
                         subsampling=ssList14)
 
@@ -343,13 +314,3 @@ PFC_V4L23.connect_with_func(one_to_dim, postDim=2)
 ## Connection from FEFfix to FEF motoric
 FEFfix_FEFm = Projection(FEFfix, FEFm, target='fix')
 FEFfix_FEFm.connect_all_to_all(weights=1.0)
-
-## Connect AuxV4L23 to V4L23 for spatial suppression
-AuxV4L23_HVA23_SSP = []
-for i in range(params['V4L23_shape'][-1]):
-    AuxV4L23_HVA23_SSP.append(Projection(pre = AuxV4L23, post = V4L23[:,:,i], target = "SSP").connect_one_to_one(weights=1.0))
-
-## Connect AuxV4L4 to V4L4 for spatial attention
-AuxV4L4_HVA23_ALIP = []
-for i in range(params['V4L4_shape'][-1]):
-    AuxV4L4_HVA23_ALIP.append(Projection(pre = AuxV4L4, post = V4L4[:,:,i], target = "LIP").connect_one_to_one(weights=1.0))

@@ -38,11 +38,11 @@ from VIS_InitializationVR import initV1
 
 def updateVision(agent_view, popVIS, popLIP):
     # Visual Network
-    Input, V1, V4, PFC, FEF, Xh = get_VISLIP_populations(popVIS, popLIP)
+    V1, AuxV1, V4, PFC, FEF, Xh = get_VISLIP_populations(popVIS, popLIP)
     VisualField = agent_view / agent_view.max()
     objV1 = initV1(ModelParam)
     rV1C_Sacc, rV1S_Sacc = stepV1(VisualField, objV1, ModelParam)
-    Input.r = np.swapaxes(rV1C_Sacc, 0, 1)
+    V1.r = np.swapaxes(rV1C_Sacc, 0, 1)
 
 def cueObject(vr_interface, target_coords, target_obj_ID, objPos_deg):
     # agent position
@@ -125,10 +125,10 @@ def get_SM_populations(populations):
 
 def get_VISLIP_populations(popVIS, popLIP):
     for pop in popVIS:
-        if pop.name == 'Input':
-            Input = pop
         if pop.name == 'V1':
             V1 = pop
+        if pop.name == 'AuxV1':
+            AuxV1 = pop
         if pop.name == 'V4L23':
             V4L23 = pop
         if pop.name == 'FEFm':
@@ -140,7 +140,7 @@ def get_VISLIP_populations(popVIS, popLIP):
         if pop.name == 'Xh':
             Xh = pop
 
-    return Input, V1, V4L23, PFC, FEFm, Xh
+    return V1, AuxV1, V4L23, PFC, FEFm, Xh
 
 def get_SM_rates(populations):
     for pop in populations:
@@ -173,8 +173,8 @@ def get_SM_rates(populations):
 
 def get_VISLIP_rates(popVIS, popLIP, reset=False):
     for pop in popVIS:
-        if pop.name == 'V1':
-            V1 = pop
+        if pop.name == 'AuxV1':
+            AuxV1 = pop
         if pop.name == 'V4L23':
             V4L23 = pop
         if pop.name == 'FEFm':
@@ -187,14 +187,14 @@ def get_VISLIP_rates(popVIS, popLIP, reset=False):
             Xh = pop
 
     if reset:
-        V1.r = 0.0
+        AuxV1.r = 0.0
         V4L23.r = 0.0
         FEFm.r = 0.0
         PFC.r = 0.0
         Xh.r = 0.0
     
     VISLIP_rates = {
-        'V1' : V1.r,
+        'V1' : AuxV1.r,
         'V4' : V4L23.r,
         'FEF': FEFm.r,
         'PFC': PFC.r,
@@ -411,7 +411,7 @@ def move_to_pos_sync(popSM, vr_interface, target_coords, target_obj_ID, folder, 
     """
 
     HD, BVC, PR, oPR, PW, H, TR, IP, oPW, OVC, oTR = get_SM_populations(popSM)
-    Input, V1, V4, PFC, FEF, Xh = get_VISLIP_populations(popVIS, popLIP)
+    V1, AuxV1, V4, PFC, FEF, Xh = get_VISLIP_populations(popVIS, popLIP)
     
     nb_neurons_H = H.size
     nb_neurons_HD = HD.size
@@ -694,7 +694,7 @@ def cue_object_and_encode(popSM, projSM, vr_interface, target_obj_ID, objPos_deg
         wait_for_finished_eye_movement(vr_interface, id, True)
         time.sleep(1)
 
-        Input, V1, V4, PFC, FEF, Xh = get_VISLIP_populations(popVIS, popLIP)
+        V1, AuxV1, V4, PFC, FEF, Xh = get_VISLIP_populations(popVIS, popLIP)
         PFC.r = 0
         oPR.percep_flag = 0
         oPW.r = 0

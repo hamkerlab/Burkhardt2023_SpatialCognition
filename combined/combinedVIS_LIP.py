@@ -77,7 +77,7 @@ def get_SM_rates(populations):
 
 def get_VISLIP_rates(popVIS, popLIP):
     for pop in popVIS:
-        if pop.name == 'V1':
+        if pop.name == 'AuxV1':
             V1 = pop
         if pop.name == 'V4L23':
             V4L23 = pop
@@ -195,12 +195,10 @@ def simulateNetwork(targetID, VisualField, populations, projections, searchOnly=
     # get needed populations and projections
     # of VIS
     for pop in populations:
-        if pop.name == 'Input':
-            Input_Pop = pop
+        if pop.name == 'V1':
+            V1_Pop = pop
         elif pop.name == 'PFC':
             PFC_Pop = pop
-        elif pop.name == 'V1':
-            V1_Pop = pop
         elif pop.name == 'V4L23':
             HVA4_Pop = pop
         elif pop.name == 'FEFm':
@@ -319,7 +317,7 @@ def simulateNetwork(targetID, VisualField, populations, projections, searchOnly=
             print("\nPre-processing phase has been finished in {0} seconds.".format(PreProcessTime2-PreProcessTime1))
 
             # Assigning the pre-processed image to the input layer.
-            Input_Pop.r = np.swapaxes(rV1C, 0, 1)
+            V1_Pop.r = np.swapaxes(rV1C, 0, 1)
 
             # Initializing the PFC
             if Experiment == 11 or Experiment == 13 or Experiment == 21 or Experiment == 23 or Experiment == 3:
@@ -569,7 +567,7 @@ def simulateNetwork(targetID, VisualField, populations, projections, searchOnly=
                     VF_Sacc = ReadImageFromVR(annarInterface)
                     VF_Counter = SaveVF(VF_Counter, VF_Sacc, ModelParam)
                     rV1C_Sacc, rV1S_Sacc = stepV1(VF_Sacc, objV1, ModelParam)
-                    Input_Pop.r = np.swapaxes(rV1C_Sacc, 0, 1) # Assigning the new pre-processed image to the input layer.
+                    V1_Pop.r = np.swapaxes(rV1C_Sacc, 0, 1) # Assigning the new pre-processed image to the input layer.
 
                     print(Highlight('\nThe new Visual Field (during saccade) has been pre-processed' + ' and given to the input layer.', 'Cyan', Bold=True))
                     if SaccIndex == len(VR_Deg) - 1:

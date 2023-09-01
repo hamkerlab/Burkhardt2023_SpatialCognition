@@ -1,23 +1,37 @@
 """
-   This program prepares the pre-processed image. The function stepV1() should be imported in main
-   program (expVR.py). The outputs of this function are the pre-processed images for V1-Simple and
-   V1-Complex layers.
+   This program simulates the V1 populations, the LGN population, and the conversion of the image to LMS color space beforehand (retinal processing). 
+   The outputs of this function(s) are the neural responses of V1-Simple and V1-Complex populations. 
+   The function stepV1() is the main function and should be imported in main program (expVR.py). 
+   
+   The model simulates:
+   
+   RGB Image -> LMS color space -> LGN and V1 simple cells -> V1 complex cells -> .. (then further to V4/IT)
+   
+   1) Retinal processing
+   Processing is performed by simulating the L,M, and S cones in the retina, via converting the RGB image to LMS color space.
+   2) LGN and V1 simple cells
+   Processing is performed by simulating color on/off cells, located in the LGN. And orientation cells located in V1.
+   3) V1 complex cells
+   Processing is performed by spatially pooling the LGN and V1 responses, which decrease the spatial resolution. These cells are called V1 complex cells.
 
    Functions:
    - stepV1()              : The main function
    --------------------------------------------------
+   LGN/V1 processing:
+   - stepColorContrasts()
+   - stepColorR2()
+   - stepGabor()
+   Retina processing / LMS color space conversion:
    - ColorSpace()
    - cat02lms()
+   - invgammacorrection()
+   Helper functions:
    - GetTransform()
    - gauss1Dfunc()
-   - invgammacorrection()
    - Lanczos()
    - LanczosMatrix()
    - RGB()
    - rgb2grayLocal()
-   - stepColorContrasts()
-   - stepColorR2()
-   - stepGabor()
    - xyz()
 
 :copyright: Copyright 2013-2023, see AUTHORS.
@@ -34,17 +48,23 @@ import cv2
 from PIL.Image import fromarray
 
 def stepV1(rgb, objV1, ModelParam):
+    '''
+    Simulate the complete processing chain:
+    the retinal processing, the LGN/V1 model, and the V1 pooling
+    '''
 
     rV1 = np.zeros(list(map(int, objV1.res)))
 
-    ## Convert RGB to LMS
+    ## Retinal processing
+    # Convert RGB to LMS
     #  Necessary for all filter banks.
     if ModelParam['LMSinput'] == 0:
         lms = ColorSpace('rgb', 'cat02lms', rgb)
     else:
         lms = rgb
 
-    ## Filtering to create LGN-Color responses
+    ## LGN and V1 simple cells
+    # Filtering to create LGN-Color responses
     # - Necessary for many filter banks
     # - Symetrical single-opponent cells
     rLgnColor = stepColorR2(lms, objV1, ModelParam)
@@ -56,7 +76,7 @@ def stepV1(rgb, objV1, ModelParam):
     rV1[:, :, 0, :] = rRG
     rV1[:, :, 1, :] = rBY
 
-    # Build edge filters (Gabor)
+    # Build V1 cells which perform edge filters (Gabor)
     rV1[:, :, 2, :] = stepGabor(rgb, objV1)
 
     ## Half rectification: set neg values to 0
@@ -65,18 +85,24 @@ def stepV1(rgb, objV1, ModelParam):
     # Saturation is needed for security and Filterbank1, submode 6
     rV1[rV1 > 1] = 1
 
+    ## V1 complex cells / Pooling
+    # The model support different pooling mechanisms
     if objV1.poolingMode == 0:
+        # No pooling
         rV1pooled = rV1
     elif objV1.poolingMode == 1:
         # Max pooling should be implemented here.
         pass
     elif objV1.poolingMode == 2:
+        # Lanczos3 pooling
         # There is no equivalent function in Python
         pass
     elif objV1.poolingMode == 3:
+        # Bilinear pooling
         # Should be implemented later
         pass
     elif objV1.poolingMode == 4:
+        # Lanczos3 pooling by Amir
         rV1pooled = np.zeros(objV1.resPooled)
         #Img = fromarray(rV1[:, :, 0, 0])
         #Img.resize((31, 41), PIL.Image.LANCZOS)
@@ -125,6 +151,7 @@ def stepV1(rgb, objV1, ModelParam):
         rV1pooled[rV1pooled > 1] = 1
         rV1pooled[rV1pooled < 0] = 0
 
+    # Special optimization for the virtual reality environment application (VR)
     if ModelParam['Sim_Env'] == 'VR':
         PoolChannel = np.asarray([1.5, 1., 1.])
         for c in range(0, 3):
@@ -134,6 +161,7 @@ def stepV1(rgb, objV1, ModelParam):
     return rV1pooled, rV1
 
 
+## Functions for RGB to LMS color space conversion
 def ColorSpace(SrcSpace, DestSpace, ImgMat):
     LocalImage = copy.deepcopy(ImgMat)
     SrcT = GetTransform(SrcSpace)
@@ -208,6 +236,7 @@ def invgammacorrection(Rp):
     return R
 
 
+## Helper functions
 def Lanczos(x, a=3.):
     if x == 0:
         L = 1.
@@ -261,7 +290,14 @@ def rgb2grayLocal(InpRGB):
     return GRAY
 
 
+## Functions for calculating the LGN and V1 simple cells,
+## i.e. the red-green and blue-yellow color contrast cells, as well as the orientation cells.
 def stepColorContrasts(vV1, objV1, ModelParam):
+    '''
+    Calculate color contrasts via a feature space (i.e. a population of cells where each cell
+    react for a particular value (here the color), simulated via Gaussian curves).
+    It uses the previous calculated color on/off cells and builds a feature space from them.
+    '''
 
     rRG = np.zeros(list(map(int, objV1.resChannelV1)))
     rBY = np.zeros(list(map(int, objV1.resChannelV1)))
@@ -328,6 +364,12 @@ def stepColorContrasts(vV1, objV1, ModelParam):
 
 
 def stepColorR2(lms, objV1, ModelParam):
+    '''
+    Calculate color on/off cells
+    On/off cells: 
+    - L-M (Red-Green)
+    - LM-S (Blue-Yellow)
+    '''
 
     # In VR we have to add LM channel (Yellow)
     Yellow = np.minimum(lms[:, :, 0], lms[:, :, 1])
@@ -406,6 +448,10 @@ def stepColorR2(lms, objV1, ModelParam):
 
 
 def stepGabor(InpRGB, objV1):
+    '''
+    Calculate orientation cells
+    Orientation cells are cells reacted to oriented edges. They are modeled via Gabor filters.
+    '''
 
     rGabor = np.zeros(list(map(int, objV1.resChannelV1)))
     ThisRGB = copy.deepcopy(InpRGB)
@@ -427,6 +473,10 @@ def stepGabor(InpRGB, objV1):
 
 
 def xyz(InputImage, SrcSpace):
+    '''
+    Helper function for color space conversion
+    '''
+
     Image1 = copy.deepcopy(InputImage)
     WhitePoint = [0.950456, 1, 1.088754]
     if SrcSpace == 'xyz':

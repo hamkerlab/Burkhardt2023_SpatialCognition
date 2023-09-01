@@ -184,7 +184,7 @@ def create_network_figure(SM_rates, VISLIP_rates, title, phase, vr_room, agent_v
             gs_slice = np.array(grid[name], dtype=int)
             fig.add_subplot(gs[gs_slice[1]:gs_slice[1]+gs_slice[3], gs_slice[0]:gs_slice[0]+gs_slice[2]])
             
-            if name == 'V1':
+            if name == 'AuxV1':
                 r = np.average(np.average(r, axis=3), axis=2)
                 plt.imshow(r.T)  
             elif name == 'V4':

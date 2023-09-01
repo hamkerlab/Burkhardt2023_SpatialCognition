@@ -30,9 +30,9 @@
 \noindent
 \begin{tabularx}{\linewidth}{|l|X|}\hline
 \hdr{2}{A}{Model Summary}\\ \hline
-\textbf{Populations}     & 29: EP, X\_FEF, LIP\_EP, LIP\_CD, Xh, Input, V1, V4L4, V4L23, AuxV4L4, AuxV4L23, FEFv, FEFvm, FEFm, PFC, AuxA, AuxE, FEFfix, HD, BVC, PR, oPR, PW, H, TR, IP, oPW, OVC, oTR \\ \hline
+\textbf{Populations}     & 27: EP, X\_FEF, LIP\_EP, LIP\_CD, Xh, V1, AuxV1, V4L4, V4L23, FEFv, FEFvm, FEFm, PFC, AuxA, AuxE, FEFfix, HD, BVC, PR, oPR, PW, H, TR, IP, oPW, OVC, oTR \\ \hline
 \textbf{Connectivity}    & Sparse connectivity matrix, User-defined, Convolution, Pooling, One-to-One, Connectivity matrix, All-to-All \\ \hline
-\textbf{Neuron models}   & V1\_Neuron, EP\_Neuron, OVC\_Neuron, H\_Neuron, Xh\_Neuron, LIPCD\_Neuron, FEFv\_Neuron, XFEF\_Neuron, FEFvm\_Neuron, AuxV4L23\_Neuron, IP\_Neuron, oTR\_Neuron, TR\_Neuron, FEFm\_Neuron, PR\_Neuron, V4L23\_Neuron, HD\_Neuron, oPR\_Neuron, oPW\_Neuron, PW\_Neuron, Input\_Neuron, LIPEP\_Neuron, Aux\_Neuron, AuxV4L4\_Neuron, BVC\_Neuron, V4L4\_Neuron \\ \hline
+\textbf{Neuron models}   & AuxV1\_Neuron, EP\_Neuron, OVC\_Neuron, H\_Neuron, Xh\_Neuron, LIPCD\_Neuron, FEFv\_Neuron, XFEF\_Neuron, FEFvm\_Neuron, IP\_Neuron, oTR\_Neuron, TR\_Neuron, FEFm\_Neuron, PR\_Neuron, V4L23\_Neuron, HD\_Neuron, oPR\_Neuron, oPW\_Neuron, PW\_Neuron, Input\_Neuron, LIPEP\_Neuron, Aux\_Neuron, BVC\_Neuron, V4L4\_Neuron \\ \hline
 \textbf{Plasticity}      & Convolution operation, Pooling operation\\ \hline
 \end{tabularx}
 
@@ -53,17 +53,13 @@
 
     Xh             & Xh\_Neuron        & $N_{\text{Xh}}$ = 336 (21*16)  \\ \hline
 
-    Input             & Input\_Neuron        & $N_{\text{Input}}$ = 158400 (66*50*3*16)  \\ \hline
-
     V1             & V1\_Neuron        & $N_{\text{V1}}$ = 158400 (66*50*3*16)  \\ \hline
+
+    AuxV1             & AuxV1\_Neuron        & $N_{\text{AuxV1}}$ = 158400 (66*50*3*16)  \\ \hline
 
     V4L4             & V4L4\_Neuron        & $N_{\text{V4L4}}$ = 99000 (66*50*30)  \\ \hline
 
     V4L23             & V4L23\_Neuron        & $N_{\text{V4L23}}$ = 24750 (33*25*30)  \\ \hline
-
-    AuxV4L4             & AuxV4L4\_Neuron        & $N_{\text{AuxV4L4}}$ = 3300 (66*50)  \\ \hline
-
-    AuxV4L23             & AuxV4L23\_Neuron        & $N_{\text{AuxV4L23}}$ = 825 (33*25)  \\ \hline
 
     FEFv             & FEFv\_Neuron        & $N_{\text{FEFv}}$ = 3300 (66*50)  \\ \hline
 
@@ -71,13 +67,13 @@
 
     FEFm             & FEFm\_Neuron        & $N_{\text{FEFm}}$ = 3300 (66*50)  \\ \hline
 
+    FEFfix             & Input\_Neuron        & $N_{\text{FEFfix}}$ = 1  \\ \hline
+
     PFC             & Input\_Neuron        & $N_{\text{PFC}}$ = 30  \\ \hline
 
     AuxA             & Aux\_Neuron        & $N_{\text{AuxA}}$ = 3300 (66*50)  \\ \hline
 
     AuxE             & Aux\_Neuron        & $N_{\text{AuxE}}$ = 825 (33*25)  \\ \hline
-
-    FEFfix             & Input\_Neuron        & $N_{\text{FEFfix}}$ = 1  \\ \hline
 
     HD             & HD\_Neuron        & $N_{\text{HD}}$ = 100  \\ \hline
 
@@ -166,10 +162,10 @@
     Xh & LIP\_CD & SSP & - &
     Created by the method sur2dTo4d\_diag \\ \hline
 
-    Input & V1 & exc & - &
+    V1 & AuxV1 & exc & - &
     One-to-One, weights 1.0, delays 5.0 \\ \hline
 
-    V1 & V4L4 & exc & Convolution operation &
+    AuxV1 & V4L4 & exc & Convolution operation &
     Convolution \\ \hline
 
     V4L4 & V4L23 & exc & Convolution operation &
@@ -182,6 +178,12 @@
     Convolution \\ \hline
 
     V4L23 & V4L4 & S\_SUR & Convolution operation &
+    Convolution \\ \hline
+
+    AuxA & V4L4 & A\_SP & Convolution operation &
+    Convolution \\ \hline
+
+    AuxA & V4L4 & S\_SP & Convolution operation &
     Convolution \\ \hline
 
     V4L23 & AuxE & exc & Pooling operation &
@@ -199,29 +201,17 @@
     FEFvm & AuxA & exc & Pooling operation &
     Pooling \\ \hline
 
-    AuxA & V4L4 & A\_SP & Convolution operation &
-    Convolution \\ \hline
-
-    AuxA & V4L4 & S\_SP & Convolution operation &
-    Convolution \\ \hline
-
     FEFvm & FEFm & vm & Pooling operation &
     Pooling \\ \hline
 
     FEFm & FEFvm & E_m & Convolution operation &
     Convolution \\ \hline
 
-    PFC & V4L23 & A\_PFC & - &
-    Created by the method one\_to\_dim \\ \hline
-
     FEFfix & FEFm & fix & - &
     All-to-All, weights 1.0, delays 0.0 \\ \hline
 
-    AuxV4L23 & V4L23 & SSP & - &
-    One-to-One, weights 1.0, delays 0.0 \\ \hline
-
-    AuxV4L4 & V4L4 & LIP & - &
-    One-to-One, weights 1.0, delays 0.0 \\ \hline
+    PFC & V4L23 & A\_PFC & - &
+    Created by the method one\_to\_dim \\ \hline
 
     HD & HD & HD2HD & - &
     Connectivity matrix \\ \hline
@@ -563,7 +553,7 @@
 \noindent
 \begin{tabularx}{\linewidth}{|p{0.15\linewidth}|X|}\hline
 
-\textbf{Name} & V1\_Neuron \\ \hline
+\textbf{Name} & AuxV1\_Neuron \\ \hline
 \textbf{Type} & User-defined model of a rate-coded neuron.\\ \hline
 \textbf{Equations} &
 
@@ -668,52 +658,6 @@
 
 \begin{dmath*}
 \frac{\tau \cdot dr}{\Delta t} = \frac{{A}(t) \cdot {\text{gHVA2}}}{{S}(t) + {\text{sigmaL23}}} - {r}(t)
-\end{dmath*}
-
-\\ \hline
-
-
-
-\end{tabularx}
-\vspace{2ex}
-
-\noindent
-\begin{tabularx}{\linewidth}{|p{0.15\linewidth}|X|}\hline
-
-\textbf{Name} & AuxV4L4\_Neuron \\ \hline
-\textbf{Type} & User-defined model of a rate-coded neuron.\\ \hline
-\textbf{Equations} &
-
-
-\begin{dmath*}
-{{\text{vLIP}}}(t) = \sum_{\text{LIP1}} w \cdot r^{\text{pre}}(t-d) \cdot {\text{vLIP1}} + \sum_{\text{LIP2}} w \cdot r^{\text{pre}}(t-d) \cdot {\text{vLIP2}}
-\end{dmath*}
-
-\begin{dmath*}
-{r}(t) = {{\text{vLIP}}}(t)
-\end{dmath*}
-
-\\ \hline
-
-
-
-\end{tabularx}
-\vspace{2ex}
-
-\noindent
-\begin{tabularx}{\linewidth}{|p{0.15\linewidth}|X|}\hline
-
-\textbf{Name} & AuxV4L23\_Neuron \\ \hline
-\textbf{Type} & User-defined model of a rate-coded neuron.\\ \hline
-\textbf{Equations} &
-
-
-\begin{dmath*}
-{S_{\text{SP}}}(t) = \sum_{\text{SSP1}} w \cdot r^{\text{pre}}(t-d) \cdot {\text{vSSP1}} + \sum_{\text{SSP2}} w \cdot r^{\text{pre}}(t-d) \cdot {\text{vSSP2}}
-\end{dmath*}
-
-\begin{dmath*}
-{r}(t) = {S_{\text{SP}}}(t)
 \end{dmath*}
 
 \\ \hline
@@ -1243,7 +1187,7 @@ w(t) \cdot {r^{\text{pre}}}(t-d)
 \begin{tabularx}{\linewidth}{|p{0.25\linewidth}|p{0.25\linewidth}|X|}\hline
 \textbf{Population} & \textbf{Parameter} & \textbf{Value}   \\ \hline
 
-    Input             & $r$        & 0.0  \\ \hline
+    V1             & $r$        & 0.0  \\ \hline
 
 \end{tabularx}
 
@@ -1253,7 +1197,7 @@ w(t) \cdot {r^{\text{pre}}}(t-d)
 \begin{tabularx}{\linewidth}{|p{0.25\linewidth}|p{0.25\linewidth}|X|}\hline
 \textbf{Population} & \textbf{Parameter} & \textbf{Value}   \\ \hline
 
-    V1             & ${\text{pV1C}}$        & 2.5  \\ \hline
+    AuxV1             & ${\text{pV1C}}$        & 2.5  \\ \hline
 
 \end{tabularx}
 
@@ -1325,9 +1269,7 @@ w(t) \cdot {r^{\text{pre}}}(t-d)
 \begin{tabularx}{\linewidth}{|p{0.25\linewidth}|p{0.25\linewidth}|X|}\hline
 \textbf{Population} & \textbf{Parameter} & \textbf{Value}   \\ \hline
 
-    AuxV4L4             & ${\text{vLIP1}}$        & 1.0  \\ \hline
-
-                 & ${\text{vLIP2}}$        & 0.1  \\ \hline
+AuxA             &         &   \\ \hline
 
 \end{tabularx}
 
@@ -1337,9 +1279,7 @@ w(t) \cdot {r^{\text{pre}}}(t-d)
 \begin{tabularx}{\linewidth}{|p{0.25\linewidth}|p{0.25\linewidth}|X|}\hline
 \textbf{Population} & \textbf{Parameter} & \textbf{Value}   \\ \hline
 
-    AuxV4L23             & ${\text{vSSP1}}$        & 1.0  \\ \hline
-
-                 & ${\text{vSSP2}}$        & 0.1  \\ \hline
+AuxE             &         &   \\ \hline
 
 \end{tabularx}
 
@@ -1403,33 +1343,17 @@ w(t) \cdot {r^{\text{pre}}}(t-d)
 \begin{tabularx}{\linewidth}{|p{0.25\linewidth}|p{0.25\linewidth}|X|}\hline
 \textbf{Population} & \textbf{Parameter} & \textbf{Value}   \\ \hline
 
-    PFC             & $r$        & 0.0  \\ \hline
-
-\end{tabularx}
-
-\vspace{2ex}
-
-\noindent
-\begin{tabularx}{\linewidth}{|p{0.25\linewidth}|p{0.25\linewidth}|X|}\hline
-\textbf{Population} & \textbf{Parameter} & \textbf{Value}   \\ \hline
-
-\end{tabularx}
-
-\vspace{2ex}
-
-\noindent
-\begin{tabularx}{\linewidth}{|p{0.25\linewidth}|p{0.25\linewidth}|X|}\hline
-\textbf{Population} & \textbf{Parameter} & \textbf{Value}   \\ \hline
-
-\end{tabularx}
-
-\vspace{2ex}
-
-\noindent
-\begin{tabularx}{\linewidth}{|p{0.25\linewidth}|p{0.25\linewidth}|X|}\hline
-\textbf{Population} & \textbf{Parameter} & \textbf{Value}   \\ \hline
-
     FEFfix             & $r$        & 0.0  \\ \hline
+
+\end{tabularx}
+
+\vspace{2ex}
+
+\noindent
+\begin{tabularx}{\linewidth}{|p{0.25\linewidth}|p{0.25\linewidth}|X|}\hline
+\textbf{Population} & \textbf{Parameter} & \textbf{Value}   \\ \hline
+
+    PFC             & $r$        & 0.0  \\ \hline
 
 \end{tabularx}
 
